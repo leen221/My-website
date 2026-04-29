@@ -181,7 +181,6 @@
             margin-bottom: 60px
         }
 
-        /* Project Cards */
         .proj-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -272,7 +271,6 @@
             letter-spacing: 0.5px
         }
 
-        /* Project Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -330,7 +328,6 @@
             color: var(--text)
         }
 
-        /* Gallery strip */
         .modal-gallery {
             display: flex;
             gap: 0;
@@ -557,7 +554,6 @@
 
 <body>
 
-    <!-- Project Modal -->
     <div class="modal-overlay" id="projModal">
         <div class="modal-box">
             <span class="modal-close" id="modalClose">✕</span>
@@ -647,27 +643,6 @@
                     </div>
                 </div>
 
-                <!-- BLC Website -->
-                <div class="proj-card reveal reveal-delay-2" data-proj="blc">
-                    <img src="web1.png" alt="BLC Website" class="proj-thumb"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="proj-thumb-placeholder" style="display:none">🌐</div>
-                    <div class="proj-body">
-                        <div class="proj-icon-row">
-                            <span class="proj-emoji">🌐</span>
-                            <div class="proj-title">BLC Group Website</div>
-                        </div>
-                        <p class="proj-desc">Full company website built from scratch for BLC Group — engineering &
-                            industrial solutions, bilingual (AR/EN).</p>
-                        <div class="proj-tags">
-                            <span class="proj-tag">HTML</span>
-                            <span class="proj-tag">CSS</span>
-                            <span class="proj-tag">JavaScript</span>
-                        </div>
-                        <div class="proj-click-hint">↗ Click to view project</div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -707,20 +682,6 @@
                 ],
                 tags: ['Manual Testing', 'Test Case Design', 'Bug Reporting', 'API Testing', 'Web Testing', 'Mobile App Testing', 'Regression Testing', 'Quality Assurance'],
                 link: null
-            },
-            blc: {
-                emoji: '🌐',
-                title: 'BLC Group Website',
-                desc: 'Designed and developed a full company website for BLC Group — an integrated engineering and industrial solutions company. The site is fully bilingual (Arabic & English), features a catalog section, branches map, services overview, and a contact form. Built from scratch using HTML, CSS, and JavaScript.',
-                images: ['web1.png', 'web2.png'],
-                info: [
-                    { label: 'Type', val: 'Web Development' },
-                    { label: 'Client', val: 'BLC Group' },
-                    { label: 'Languages', val: 'Bilingual — AR / EN' },
-                    { label: 'Status', val: 'Live 🟢' }
-                ],
-                tags: ['HTML', 'CSS', 'JavaScript', 'Bilingual', 'Responsive Design', 'Company Website'],
-                link: 'https://blc-lyart.vercel.app/'
             }
         };
 
@@ -743,11 +704,9 @@
                 document.getElementById('modalTitle').textContent = d.title;
                 document.getElementById('modalDesc').textContent = d.desc;
 
-                // Main image
                 mainImg.src = d.images[0];
                 mainImg.alt = d.title;
 
-                // Thumbnails
                 thumbsWrap.innerHTML = d.images.map(img =>
                     `<img src="${img}" class="modal-thumb${img === d.images[0] ? ' active' : ''}" data-src="${img}" alt="">`
                 ).join('');
@@ -755,20 +714,16 @@
                     t.addEventListener('click', () => setMainImg(t.dataset.src));
                 });
 
-                // Hide thumbs strip if only one image
                 thumbsWrap.style.display = d.images.length > 1 ? 'flex' : 'none';
 
-                // Info grid
                 document.getElementById('modalInfoGrid').innerHTML = d.info.map(i =>
                     `<div class="modal-info-box"><div class="modal-info-label">${i.label}</div><div class="modal-info-val">${i.val}</div></div>`
                 ).join('');
 
-                // Tags
                 document.getElementById('modalTags').innerHTML = d.tags.map(t =>
                     `<span class="modal-tag">${t}</span>`
                 ).join('');
 
-                // Link
                 document.getElementById('modalLinkWrap').innerHTML = d.link
                     ? `<a href="${d.link}" target="_blank" class="modal-link">🔗 Visit Live Website</a>`
                     : '';
