@@ -600,29 +600,28 @@
             <p class="section-sub">Real work, real impact — from robots to web systems.</p>
             <div class="proj-grid">
 
-                <!-- Sumo Robot -->
-                <div class="proj-card reveal" data-proj="robot">
-                    <img src="robot1.jpg" alt="Sumo Robot" class="proj-thumb"
+                <!-- QA BERT - NLP Project -->
+                <div class="proj-card reveal" data-proj="nlp">
+                    <img src="nlp1.png" alt="QA BERT" class="proj-thumb"
                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="proj-thumb-placeholder" style="display:none">🤖</div>
+                    <div class="proj-thumb-placeholder" style="display:none">🧠</div>
                     <div class="proj-body">
                         <div class="proj-icon-row">
-                            <span class="proj-emoji">🤖</span>
-                            <div class="proj-title">Sumo Robot</div>
+                            <span class="proj-emoji">🧠</span>
+                            <div class="proj-title">QA with BERT — NLP</div>
                         </div>
-                        <p class="proj-desc">Autonomous competitive robot built with Arduino. Sensor-based detection and
-                            real-time motor control logic.</p>
+                        <p class="proj-desc">Question Answering system using BERT fine-tuned on SQuAD v1.1. Deep neural network that extracts answers from context paragraphs.</p>
                         <div class="proj-tags">
-                            <span class="proj-tag">Arduino</span>
-                            <span class="proj-tag">C++</span>
-                            <span class="proj-tag">Sensors</span>
-                            <span class="proj-tag">Embedded</span>
+                            <span class="proj-tag">Python</span>
+                            <span class="proj-tag">BERT</span>
+                            <span class="proj-tag">NLP</span>
+                            <span class="proj-tag">SQuAD</span>
                         </div>
                         <div class="proj-click-hint">↗ Click to view project</div>
                     </div>
                 </div>
 
-                <!-- QA -->
+                <!-- QA Test Suite -->
                 <div class="proj-card reveal reveal-delay-1" data-proj="qa">
                     <img src="qa1.jpg" alt="QA Testing" class="proj-thumb"
                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -643,6 +642,28 @@
                     </div>
                 </div>
 
+                <!-- Sumo Robot -->
+                <div class="proj-card reveal reveal-delay-2" data-proj="robot">
+                    <img src="robot1.jpg" alt="Sumo Robot" class="proj-thumb"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="proj-thumb-placeholder" style="display:none">🤖</div>
+                    <div class="proj-body">
+                        <div class="proj-icon-row">
+                            <span class="proj-emoji">🤖</span>
+                            <div class="proj-title">Sumo Robot</div>
+                        </div>
+                        <p class="proj-desc">Autonomous competitive robot built with Arduino. Sensor-based detection and
+                            real-time motor control logic.</p>
+                        <div class="proj-tags">
+                            <span class="proj-tag">Arduino</span>
+                            <span class="proj-tag">C++</span>
+                            <span class="proj-tag">Sensors</span>
+                            <span class="proj-tag">Embedded</span>
+                        </div>
+                        <div class="proj-click-hint">↗ Click to view project</div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -655,19 +676,19 @@
 
     <script>
         const projData = {
-            robot: {
-                emoji: '🤖',
-                title: 'Sumo Robot',
-                desc: 'Designed and built a fully autonomous competitive Sumo Robot using Arduino UNO. The robot uses ultrasonic sensors to detect opponents and IR sensors to detect the ring edge — then applies real-time motor control logic to push opponents out while staying inside the ring.',
-                images: ['robot1.jpg', 'robot2.jpg', 'robot3.jpg'],
+            nlp: {
+                emoji: '🧠',
+                title: 'QA with BERT — NLP',
+                desc: 'Built a Question Answering system using BERT (Bidirectional Encoder Representations from Transformers) fine-tuned on SQuAD v1.1 dataset. The model reads a context paragraph and extracts the exact answer to any question. Achieved F1 Score of ~83.7% and Exact Match of ~74.3% on the SQuAD validation set.',
+                images: ['nlp1.png'],
                 info: [
-                    { label: 'Type', val: 'Embedded / Robotics' },
-                    { label: 'Hardware', val: 'Arduino UNO' },
-                    { label: 'Competition', val: 'Sumo Robot Competition' },
-                    { label: 'Duration', val: 'Workshop — 2024' }
+                    { label: 'Type', val: 'Deep Learning / NLP' },
+                    { label: 'Model', val: 'BERT-base-uncased' },
+                    { label: 'Dataset', val: 'SQuAD v1.1' },
+                    { label: 'Status', val: 'Live 🟢' }
                 ],
-                tags: ['Arduino', 'C++', 'Ultrasonic Sensor', 'IR Sensor', 'Motor Control', 'Embedded Systems', 'Control Logic', 'Robot Programming'],
-                link: null
+                tags: ['Python', 'BERT', 'Transformers', 'NLP', 'SQuAD', 'HuggingFace', 'Deep Learning', 'Question Answering'],
+                link: 'https://huggingface.co/spaces/leenthaher/qa-bert'
             },
             qa: {
                 emoji: '🔍',
@@ -681,6 +702,20 @@
                     { label: 'Certification', val: 'Certified ✓' }
                 ],
                 tags: ['Manual Testing', 'Test Case Design', 'Bug Reporting', 'API Testing', 'Web Testing', 'Mobile App Testing', 'Regression Testing', 'Quality Assurance'],
+                link: null
+            },
+            robot: {
+                emoji: '🤖',
+                title: 'Sumo Robot',
+                desc: 'Designed and built a fully autonomous competitive Sumo Robot using Arduino UNO. The robot uses ultrasonic sensors to detect opponents and IR sensors to detect the ring edge — then applies real-time motor control logic to push opponents out while staying inside the ring.',
+                images: ['robot1.jpg', 'robot2.jpg', 'robot3.jpg'],
+                info: [
+                    { label: 'Type', val: 'Embedded / Robotics' },
+                    { label: 'Hardware', val: 'Arduino UNO' },
+                    { label: 'Competition', val: 'Sumo Robot Competition' },
+                    { label: 'Duration', val: 'Workshop — 2024' }
+                ],
+                tags: ['Arduino', 'C++', 'Ultrasonic Sensor', 'IR Sensor', 'Motor Control', 'Embedded Systems', 'Control Logic', 'Robot Programming'],
                 link: null
             }
         };
@@ -725,7 +760,7 @@
                 ).join('');
 
                 document.getElementById('modalLinkWrap').innerHTML = d.link
-                    ? `<a href="${d.link}" target="_blank" class="modal-link">🔗 Visit Live Website</a>`
+                    ? `<a href="${d.link}" target="_blank" class="modal-link">🔗 Visit Live Demo</a>`
                     : '';
 
                 modal.classList.add('open');
