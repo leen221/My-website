@@ -463,6 +463,14 @@
             color: var(--text)
         }
 
+        .modal-video {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            max-height: 280px;
+            background: #000
+        }
+
         footer {
             padding: 30px 60px;
             display: flex;
@@ -565,6 +573,7 @@
                     <div class="modal-proj-title" id="modalTitle"></div>
                 </div>
                 <p class="modal-proj-desc" id="modalDesc"></p>
+                <div id="modalVideoWrap"></div>
                 <div class="modal-info-grid" id="modalInfoGrid"></div>
                 <div class="modal-tags" id="modalTags"></div>
                 <div id="modalLinkWrap"></div>
@@ -664,6 +673,28 @@
                     </div>
                 </div>
 
+                <!-- Obstacle Avoidance Car -->
+                <div class="proj-card reveal reveal-delay-1" data-proj="car">
+                    <img src="car1.jpg" alt="Obstacle Avoidance Car" class="proj-thumb"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="proj-thumb-placeholder" style="display:none">🚗</div>
+                    <div class="proj-body">
+                        <div class="proj-icon-row">
+                            <span class="proj-emoji">🚗</span>
+                            <div class="proj-title">Obstacle Avoidance Car</div>
+                        </div>
+                        <p class="proj-desc">Autonomous car that detects and avoids obstacles in real-time using ultrasonic sensors and Arduino-controlled motor logic.</p>
+                        <div class="proj-tags">
+                            <span class="proj-tag">Arduino Uno</span>
+                            <span class="proj-tag">C++</span>
+                            <span class="proj-tag">HC-SR04</span>
+                            <span class="proj-tag">L298N</span>
+                            <span class="proj-tag">DC Motors</span>
+                        </div>
+                        <div class="proj-click-hint">↗ Click to view project</div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -681,6 +712,7 @@
                 title: 'QA with BERT — NLP',
                 desc: 'Built a Question Answering system using BERT (Bidirectional Encoder Representations from Transformers) fine-tuned on SQuAD v1.1 dataset. The model reads a context paragraph and extracts the exact answer to any question. Achieved F1 Score of ~83.7% and Exact Match of ~74.3% on the SQuAD validation set.',
                 images: ['nlp1.png'],
+                video: null,
                 info: [
                     { label: 'Type', val: 'Deep Learning / NLP' },
                     { label: 'Model', val: 'BERT-base-uncased' },
@@ -695,6 +727,7 @@
                 title: 'QA Test Suite — Huma-volve',
                 desc: 'Developed a comprehensive Quality Assurance test suite during a 176-hour training program at Huma-volve. Covered full manual testing cycles, detailed test case design, structured bug reporting, API endpoint validation, and mobile & web platform testing.',
                 images: ['qa1.jpg', 'qa2.jpg', 'qa3.jpg'],
+                video: null,
                 info: [
                     { label: 'Type', val: 'Software Quality Assurance' },
                     { label: 'Organization', val: 'Huma-volve' },
@@ -709,6 +742,7 @@
                 title: 'Sumo Robot',
                 desc: 'Designed and built a fully autonomous competitive Sumo Robot using Arduino UNO. The robot uses ultrasonic sensors to detect opponents and IR sensors to detect the ring edge — then applies real-time motor control logic to push opponents out while staying inside the ring.',
                 images: ['robot1.jpg', 'robot2.jpg', 'robot3.jpg'],
+                video: null,
                 info: [
                     { label: 'Type', val: 'Embedded / Robotics' },
                     { label: 'Hardware', val: 'Arduino UNO' },
@@ -716,6 +750,21 @@
                     { label: 'Duration', val: 'Workshop — 2024' }
                 ],
                 tags: ['Arduino', 'C++', 'Ultrasonic Sensor', 'IR Sensor', 'Motor Control', 'Embedded Systems', 'Control Logic', 'Robot Programming'],
+                link: null
+            },
+            car: {
+                emoji: '🚗',
+                title: 'Obstacle Avoidance Car',
+                desc: 'Built an autonomous car that detects and avoids obstacles in real-time. The Arduino Uno acts as the brain, processing distance data from the HC-SR04 ultrasonic sensor and controlling two DC motors via the L298N motor driver — allowing the car to steer away from obstacles automatically.',
+                images: ['car1.jpg'],
+                video: 'car_video.mp4',
+                info: [
+                    { label: 'Type', val: 'Embedded / Robotics' },
+                    { label: 'Hardware', val: 'Arduino Uno' },
+                    { label: 'Sensors', val: 'HC-SR04 Ultrasonic' },
+                    { label: 'Motor Driver', val: 'L298N' }
+                ],
+                tags: ['Arduino Uno', 'C++', 'HC-SR04', 'L298N', 'DC Motors', 'Motor Control', 'Embedded Systems', 'Autonomous'],
                 link: null
             }
         };
@@ -741,6 +790,7 @@
 
                 mainImg.src = d.images[0];
                 mainImg.alt = d.title;
+                mainImg.style.display = 'block';
 
                 thumbsWrap.innerHTML = d.images.map(img =>
                     `<img src="${img}" class="modal-thumb${img === d.images[0] ? ' active' : ''}" data-src="${img}" alt="">`
@@ -750,6 +800,13 @@
                 });
 
                 thumbsWrap.style.display = d.images.length > 1 ? 'flex' : 'none';
+
+                const videoWrap = document.getElementById('modalVideoWrap');
+                if (d.video) {
+                    videoWrap.innerHTML = `<video class="modal-video" controls><source src="${d.video}" type="video/mp4">Your browser does not support the video tag.</video>`;
+                } else {
+                    videoWrap.innerHTML = '';
+                }
 
                 document.getElementById('modalInfoGrid').innerHTML = d.info.map(i =>
                     `<div class="modal-info-box"><div class="modal-info-label">${i.label}</div><div class="modal-info-val">${i.val}</div></div>`
