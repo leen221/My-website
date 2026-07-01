@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="google-site-verification" content="Rtni9wB0LKGR4l2A3UBiILWuvvVIRsAqfRMR6CR4G0Y" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leen Thaher | AI & Robotics Engineer</title>
@@ -108,38 +109,13 @@
         .reveal-delay-2 { transition-delay: 0.2s }
         .reveal-delay-3 { transition-delay: 0.3s }
 
-        @media(max-width:1024px) {
-            .hero-inner {
-                grid-template-columns: 1fr;
-                gap: 50px;
-                text-align: center
-            }
-
-            .hero-visual {
-                display: flex;
-                justify-content: center
-            }
-
-            .profile-frame {
-                width: 280px;
-                height: 320px
-            }
-
-            .float-card-1 {
-                left: -10px
-            }
-
-            .float-card-2 {
-                left: -10px
-            }
-
-            .hero-bio {
-                margin: 0 auto 40px
-            }
-
-            .hero-actions {
-                justify-content: center
-            }
+        @media(max-width:900px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: center }
+            .hero-bio { margin-left: auto; margin-right: auto }
+            .hero-actions { justify-content: center }
+            .hero-visual { order: -1 }
+            .profile-frame { width: 280px; height: 320px }
+            .float-card { display: none }
         }
 
         @media(max-width:768px) {
