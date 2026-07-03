@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ambitions | Leen Thaher</title>
+
+    <!-- منع ظهور صور هذه الصفحة في نتائج بحث الصور بجوجل، مع بقاء الصفحة نفسها قابلة للفهرسة بالبحث العادي -->
+    <meta name="robots" content="noimage, index, follow">
+    <meta name="googlebot-image" content="noindex">
+    <meta name="googlebot" content="noimageindex">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -230,6 +236,14 @@
             line-height: 1.7
         }
 
+        /* لو ضفتي صور جوه أي amb-item، هاد الكلاس بيتحكم فيها بشكل موحد */
+        .amb-img {
+            width: 100%;
+            border-radius: 12px;
+            display: block;
+            margin-top: 12px
+        }
+
         footer {
             padding: 30px 60px;
             display: flex;
@@ -348,6 +362,9 @@
                         <div class="amb-title">Master AI & Machine Learning</div>
                         <p class="amb-desc">Go deep into neural networks, deep learning, and intelligent agent design —
                             moving far beyond the basics into real specialization.</p>
+                        <!-- مثال: لو ضفتي صورة هون
+                        <img src="images/ai-goal.jpg" alt="AI and Machine Learning" class="amb-img" loading="lazy">
+                        -->
                     </div>
                 </div>
                 <div class="amb-item reveal reveal-delay-1">
