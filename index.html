@@ -65,15 +65,15 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
 .hero2-orb-1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; top: -140px; left: -120px; background: radial-gradient(circle, rgba(124, 58, 237, 0.14) 0%, transparent 70%); filter: blur(60px); z-index: 0; animation: pulse-orb 9s ease-in-out infinite }
 
 .hero2-photo { position: absolute; inset: 0; left: 40%; z-index: 1; overflow: hidden }
-.hero2-photo-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: grayscale(0.3) contrast(1.1) brightness(0.92); transform: scale(1.02); display: block; transition: transform 0.2s ease-out }
+.hero2-photo-img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; filter: grayscale(0.3) contrast(1.1) brightness(0.92); transform: scale(1.25); display: block; transition: transform 0.2s ease-out }
 .hero2-photo-tint { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(124, 58, 237, 0.4) 0%, rgba(34, 211, 238, 0.12) 45%, rgba(232, 121, 249, 0.32) 100%); mix-blend-mode: color; pointer-events: none }
 .hero2-photo-fade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(5, 5, 8, 0.85) 14%, rgba(5, 5, 8, 0.2) 40%, transparent 65%), linear-gradient(0deg, var(--bg) 0%, rgba(5, 5, 8, 0.7) 18%, transparent 45%), linear-gradient(0deg, transparent 60%, rgba(5,5,8,0.5) 100%); pointer-events: none }
 
 .hero2-index { position: absolute; top: 100px; left: 60px; z-index: 3; display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 2px }
-.hero2-index-num { color: var(--green); font-family: var(--font-display); font-weight: 700 }
+.hero2-index-num { color: var(--violet-light); font-family: var(--font-display); font-weight: 700 }
 .hero2-index-bars { display: flex; flex-direction: column; gap: 3px }
 .hero2-index-bars i { display: block; width: 16px; height: 2px; background: var(--faint) }
-.hero2-index-bars i:first-child { background: var(--green); width: 24px }
+.hero2-index-bars i:first-child { background: var(--cyan); width: 24px }
 
 .hero2-tagline { position: absolute; left: 60px; top: 42%; transform: translateY(-50%); z-index: 3; max-width: 260px }
 .hero2-tagline p { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: -0.5px; margin-bottom: 16px }
@@ -2448,12 +2448,13 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
            title / subtitle: text shown on the active card
         ========================================================= */
         const items = [
-            { type: "image", src: "https://picsum.photos/seed/leen1/600/850", badge: "⭐ Featured", title: "Robotics Workshop", subtitle: "2024 · Al-Balqa University" },
-            { type: "video", src: "media/highlight-video1.mp4", poster: "https://picsum.photos/seed/leen2/600/850", badge: "🎬 Video", title: "AI Project Demo", subtitle: "2:14 · Capstone Project" },
-            { type: "image", src: "https://picsum.photos/seed/leen3/600/850", badge: "⭐ Award", title: "QA Certification", subtitle: "2025 · Junior QA Tester" },
-            { type: "image", src: "https://picsum.photos/seed/leen4/600/850", badge: "📸 Event", title: "Team Hackathon", subtitle: "2024 · 1st Place" },
-            { type: "video", src: "media/highlight-video2.mp4", poster: "https://picsum.photos/seed/leen5/600/850", badge: "🎬 Video", title: "Robot Demo Reel", subtitle: "1:48 · Live Test Run" },
-            { type: "image", src: "https://picsum.photos/seed/leen6/600/850", badge: "⭐ Featured", title: "Python & ML Training", subtitle: "2025 · Trainee Program" },
+            { type: "image", src: "media/Screenshot 2026-07-04 175213.png", badge: "📸 Event", title: "UTOPIA Event", subtitle: "University of Jordan · 2026" },
+            { type: "video", src: "media/__في الجامعة الأردنية، وبين الحماس والهوية، نظّم فريق UTOPIA فعالية هي الأولى من نوعها في الجامع.mp4", poster: "", badge: "🎬 Video", title: "UTOPIA Team Highlight", subtitle: "University of Jordan · First-of-its-kind Event" },
+            { type: "image", src: "media/Screenshot 2026-07-04 175552.png", badge: "📸 Event", title: "Event Moment", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "media/Screenshot 2026-07-04 175544.png", badge: "📸 Event", title: "Team in Action", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "media/Screenshot 2026-07-04 175535.png", badge: "📸 Event", title: "Behind the Scenes", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "media/Screenshot 2026-07-04 175527.png", badge: "📸 Event", title: "Crowd Energy", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "media/1745950359359 (1).jpg", badge: "⭐ Featured", title: "Highlight Photo", subtitle: "2025" },
         ];
 
         const coverflow = document.getElementById("coverflow");
@@ -2465,7 +2466,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
 
         function cardHTML(item, i) {
             const media = item.type === "video"
-                ? `<video src="${item.src}" poster="${item.poster}" muted loop playsinline></video>`
+                ? `<video src="${item.src}" ${item.poster ? `poster="${item.poster}"` : ""} muted loop playsinline preload="metadata"></video>`
                 : `<img src="${item.src}" alt="${item.title}">`;
             const playIcon = item.type === "video" ? `<div class="cf-play">▶</div>` : "";
             return `
@@ -2600,7 +2601,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             modal.classList.remove("open");
             modalMedia.innerHTML = "";
         }
-        document.getElementById("modal-close").addEventListener("click", closeModal);
+        document.getElementById("hlModalClose").addEventListener("click", closeModal);
         modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
 
         // Shared site behaviors
