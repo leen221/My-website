@@ -59,7 +59,7 @@
             left: 50%;
             transform: translateX(-50%);
             margin-left: calc(-50vw + 50%);
-            height: 640px;
+            height: 760px;
             display: flex;
             align-items: stretch;
             z-index: 1;
@@ -67,26 +67,31 @@
 
         .cert-wheel-col {
             position: relative;
-            width: 46%;
-            min-width: 320px;
+            width: 52%;
+            min-width: 360px;
             height: 100%;
             overflow: hidden;
+            cursor: grab;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .cert-wheel-col.grabbing {
+            cursor: grabbing;
         }
 
         .cert-thumb {
             position: absolute;
-            width: 130px;
-            height: 172px;
-            border-radius: 10px;
+            width: 170px;
+            height: 224px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             border: 2px solid rgba(255,255,255,0.08);
             background: var(--bg3);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            opacity: 0.5;
-            filter: grayscale(0.4) brightness(0.7);
-            transition: transform 0.4s cubic-bezier(.16,.8,.24,1), opacity 0.4s ease, filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
             will-change: transform;
+            pointer-events: auto;
         }
 
         .cert-thumb img {
@@ -95,19 +100,17 @@
             object-fit: cover;
             display: block;
             pointer-events: none;
+            -webkit-user-drag: none;
         }
 
         .cert-thumb.active {
-            opacity: 1;
-            filter: grayscale(0) brightness(1);
             border-color: var(--violet-light);
             box-shadow: 0 0 0 4px rgba(124,58,237,0.25), 0 20px 50px rgba(0,0,0,0.6);
-            z-index: 50 !important;
         }
 
         .cert-display {
             position: relative;
-            width: 54%;
+            width: 48%;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -193,10 +196,10 @@
         .reveal.visible { opacity: 1; transform: translateY(0) }
 
         @media(max-width:900px) {
-            .cert-stage { height: 520px; flex-direction: column; }
-            .cert-wheel-col { width: 100%; height: 300px; }
+            .cert-stage { height: 560px; flex-direction: column; }
+            .cert-wheel-col { width: 100%; height: 340px; }
             .cert-display { width: 100%; height: 220px; padding: 10px 20px; }
-            .cert-thumb { width: 90px; height: 118px; }
+            .cert-thumb { width: 110px; height: 146px; }
         }
 
         @media(max-width:768px) {
@@ -262,7 +265,7 @@
         <div class="section reveal">
             <span class="section-label">Credentials</span>
             <h2 class="section-title">Certificates</h2>
-            <p class="section-sub">Hover a certificate on the wheel, or use the arrow keys, to preview it.</p>
+            <p class="section-sub">Drag the wheel, scroll over it, or use the arrow keys to spin through certificates.</p>
         </div>
 
         <div class="cert-stage">
@@ -279,7 +282,7 @@
                 </div>
             </div>
 
-            <div class="cert-hint">Use ↑ / ↓ or hover to browse</div>
+            <div class="cert-hint">Drag / Scroll / ↑ ↓ to spin</div>
         </div>
     </section>
 
@@ -348,28 +351,46 @@
         const displayIssuer = document.getElementById('certDisplayIssuer');
         const displayDesc = document.getElementById('certDisplayDesc');
 
-        let activeIndex = 0;
+        const N = certs.length;
+        const SPACING_DEG = 15;      // angle between two neighbouring certs
+        const PX_PER_STEP = 90;      // drag distance (px) needed to move one cert
+        let pos = 0;                 // continuous "wheel position" (0..N-1)
+        let shownIndex = -1;         // which cert is currently displayed on the right
         const thumbs = [];
+
+        function clampPos(p) { return Math.max(0, Math.min(N - 1, p)); }
 
         function layoutWheel() {
             const colH = wheelCol.clientHeight;
+            const colW = wheelCol.clientWidth;
             const cy = colH / 2;
-            const n = certs.length;
-            const EDGE = 30; // degrees, arc spread from -EDGE to +EDGE
-            const R = Math.max(colH * 1.1, 620); // radius
-            const cx = -(R - 90); // pulls the circle center off-screen to the left
+            const R = Math.max(colH * 1.3, colW * 1.9, 900);
+            const cx = -(R - 190); // pulls the circle centre off-screen to the left
 
             thumbs.forEach((thumb, i) => {
-                const t = n > 1 ? (i / (n - 1)) : 0.5;
-                const angleDeg = -EDGE + t * (EDGE * 2);
+                const dist = i - pos;               // signed distance in "steps" from the active slot
+                const angleDeg = dist * SPACING_DEG;
                 const angleRad = angleDeg * Math.PI / 180;
                 const x = cx + R * Math.cos(angleRad);
                 const y = cy + R * Math.sin(angleRad);
+
+                const absDist = Math.abs(dist);
+                const scale = Math.max(0.55, 1 - absDist * 0.13);
+                const opacity = Math.max(0.22, 1 - absDist * 0.24);
+                const gray = Math.min(0.65, absDist * 0.32);
+                const bright = Math.max(0.55, 1 - absDist * 0.14);
+
                 thumb.style.left = x + 'px';
                 thumb.style.top = y + 'px';
-                thumb.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg)`;
-                thumb.style.zIndex = 100 - Math.abs(i - activeIndex);
+                thumb.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg) scale(${scale})`;
+                thumb.style.opacity = opacity;
+                thumb.style.filter = `grayscale(${gray}) brightness(${bright})`;
+                thumb.style.zIndex = Math.round(200 - absDist * 10);
             });
+
+            const nearest = Math.round(clampPos(pos));
+            thumbs.forEach((t, idx) => t.classList.toggle('active', idx === nearest));
+            if (nearest !== shownIndex) showDetails(nearest);
         }
 
         function renderWheel() {
@@ -378,25 +399,20 @@
             certs.forEach((cert, i) => {
                 const el = document.createElement('div');
                 el.className = 'cert-thumb';
-                el.tabIndex = 0;
                 el.innerHTML = `<img src="${cert.img}" alt="${cert.title}" onerror="this.style.opacity='0.2'">`;
-                el.addEventListener('mouseenter', () => setActive(i));
-                el.addEventListener('focus', () => setActive(i));
-                el.addEventListener('click', () => setActive(i));
+                el.addEventListener('click', () => {
+                    if (didDrag) return; // ignore click right after a drag
+                    animateTo(i);
+                });
                 wheelCol.appendChild(el);
                 thumbs.push(el);
             });
             layoutWheel();
         }
 
-        function setActive(i) {
-            if (i < 0) i = 0;
-            if (i > certs.length - 1) i = certs.length - 1;
-            activeIndex = i;
-            thumbs.forEach((t, idx) => t.classList.toggle('active', idx === activeIndex));
-            layoutWheel();
-
-            const cert = certs[activeIndex];
+        function showDetails(i) {
+            shownIndex = i;
+            const cert = certs[i];
             displayImg.classList.remove('show');
             displayInfo.classList.remove('show');
             setTimeout(() => {
@@ -406,22 +422,88 @@
                 displayDesc.textContent = cert.desc;
                 displayImg.classList.add('show');
                 displayInfo.classList.add('show');
-            }, 120);
+            }, 100);
+        }
+
+        function setPos(p) {
+            pos = clampPos(p);
+            layoutWheel();
+        }
+
+        // ---- smooth animated spin (used by keyboard + snapping) ----
+        let animRAF = null;
+        function animateTo(target) {
+            target = clampPos(target);
+            if (animRAF) cancelAnimationFrame(animRAF);
+            const start = pos;
+            const startTime = performance.now();
+            const duration = 420;
+            function step(now) {
+                const t = Math.min(1, (now - startTime) / duration);
+                const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+                setPos(start + (target - start) * eased);
+                if (t < 1) animRAF = requestAnimationFrame(step);
+            }
+            animRAF = requestAnimationFrame(step);
         }
 
         renderWheel();
-        setActive(0);
+        showDetails(0);
         window.addEventListener('resize', layoutWheel);
 
+        // ---- drag to spin ----
+        let isDragging = false, didDrag = false, dragStartY = 0, dragStartPos = 0;
+
+        function dragStart(clientY) {
+            if (animRAF) cancelAnimationFrame(animRAF);
+            isDragging = true;
+            didDrag = false;
+            dragStartY = clientY;
+            dragStartPos = pos;
+            wheelCol.classList.add('grabbing');
+        }
+        function dragMove(clientY) {
+            if (!isDragging) return;
+            const deltaY = clientY - dragStartY;
+            if (Math.abs(deltaY) > 4) didDrag = true;
+            setPos(dragStartPos - deltaY / PX_PER_STEP);
+        }
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            wheelCol.classList.remove('grabbing');
+            animateTo(Math.round(pos));
+            setTimeout(() => { didDrag = false; }, 50);
+        }
+
+        wheelCol.addEventListener('mousedown', e => { dragStart(e.clientY); e.preventDefault(); });
+        window.addEventListener('mousemove', e => dragMove(e.clientY));
+        window.addEventListener('mouseup', dragEnd);
+
+        wheelCol.addEventListener('touchstart', e => dragStart(e.touches[0].clientY), { passive: true });
+        window.addEventListener('touchmove', e => { if (isDragging) dragMove(e.touches[0].clientY); }, { passive: true });
+        window.addEventListener('touchend', dragEnd);
+
+        // ---- scroll to spin ----
+        let wheelSnapTimer = null;
+        wheelCol.addEventListener('wheel', e => {
+            e.preventDefault();
+            if (animRAF) cancelAnimationFrame(animRAF);
+            setPos(pos + e.deltaY * 0.012);
+            clearTimeout(wheelSnapTimer);
+            wheelSnapTimer = setTimeout(() => animateTo(Math.round(pos)), 160);
+        }, { passive: false });
+
+        // ---- keyboard to spin ----
         document.addEventListener('keydown', (e) => {
             const tag = (document.activeElement && document.activeElement.tagName) || '';
             if (tag === 'INPUT' || tag === 'TEXTAREA') return;
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
                 e.preventDefault();
-                setActive(Math.min(activeIndex + 1, certs.length - 1));
+                animateTo(Math.round(pos) + 1);
             } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
                 e.preventDefault();
-                setActive(Math.max(activeIndex - 1, 0));
+                animateTo(Math.round(pos) - 1);
             }
         });
 
