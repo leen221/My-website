@@ -820,82 +820,182 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             line-height: 1.7;
             margin-bottom: 60px
          }
-#scope-projects .proj-grid { 
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px
+#scope-projects .case-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding-bottom: 40px
          }
-#scope-projects .proj-card { 
+#scope-projects .case-card {
             background: var(--bg2);
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 22px;
             overflow: hidden;
-            transition: all 0.3s;
+            transition: border-color 0.35s ease;
             cursor: pointer;
-            position: relative
+            position: sticky;
+            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.65);
+            margin-bottom: 24px
          }
-#scope-projects .proj-card:hover { 
-            border-color: rgba(124, 58, 237, 0.4);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4)
+#scope-projects .case-card:nth-child(1) { top: 96px; z-index: 1 }
+#scope-projects .case-card:nth-child(2) { top: 184px; z-index: 2 }
+#scope-projects .case-card:nth-child(3) { top: 272px; z-index: 3 }
+#scope-projects .case-card:nth-child(4) { top: 360px; z-index: 4 }
+#scope-projects .case-card:nth-child(5) { top: 448px; z-index: 5 }
+#scope-projects .case-card:hover {
+            border-color: rgba(124, 58, 237, 0.4)
          }
-#scope-projects .proj-thumb { 
+#scope-projects .case-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 22px 26px;
+            background: var(--bg2);
+            position: relative;
+            z-index: 2
+         }
+#scope-projects .case-num-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0
+         }
+#scope-projects .case-num {
+            flex-shrink: 0;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--violet-light);
+            background: rgba(124, 58, 237, 0.12);
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+         }
+#scope-projects .case-eyebrow {
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--muted)
+         }
+#scope-projects .case-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 17px;
+            margin-top: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+         }
+#scope-projects .case-live-btn {
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 11px 22px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.25s;
+            background: rgba(255, 255, 255, 0.02)
+         }
+#scope-projects .case-live-btn:hover {
+            border-color: var(--violet-light);
+            color: var(--violet-light);
+            background: rgba(124, 58, 237, 0.1)
+         }
+#scope-projects .case-media {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            padding: 0 4px 4px;
+            position: relative;
+            height: 300px
+         }
+#scope-projects .case-media.count-1 {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            height: 340px
+         }
+#scope-projects .case-media.count-3 {
+            grid-template-columns: 2fr 1fr
+         }
+#scope-projects .case-media img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
+            border-radius: 14px;
             display: block
          }
-#scope-projects .proj-thumb-placeholder { 
+#scope-projects .case-media.count-3 img:nth-child(1) { grid-column: 1; grid-row: 1 / 3 }
+#scope-projects .case-media.count-3 img:nth-child(2) { grid-column: 2; grid-row: 1 }
+#scope-projects .case-media.count-3 img:nth-child(3) { grid-column: 2; grid-row: 2 }
+#scope-projects .case-thumb-placeholder {
             width: 100%;
-            height: 200px;
+            height: 100%;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 52px;
+            font-size: 44px;
             background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(34, 211, 238, 0.06))
          }
-#scope-projects .proj-body { 
-            padding: 22px
-         }
-#scope-projects .proj-icon-row { 
+#scope-projects .case-play-overlay {
+            position: absolute;
+            inset: 4px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px
+            justify-content: center;
+            background: rgba(5, 5, 8, 0.28);
+            border-radius: 14px;
+            pointer-events: none
          }
-#scope-projects .proj-emoji { 
-            font-size: 22px
+#scope-projects .case-play-btn {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.25s
          }
-#scope-projects .proj-title { 
-            font-family: var(--font-display);
-            font-size: 17px;
-            font-weight: 700
+#scope-projects .case-card:hover .case-play-btn {
+            transform: scale(1.08)
          }
-#scope-projects .proj-desc { 
+#scope-projects .case-play-btn svg {
+            width: 22px;
+            height: 22px;
+            margin-left: 3px
+         }
+#scope-projects .case-desc {
             color: var(--muted);
             font-size: 13px;
             line-height: 1.7;
-            margin-bottom: 14px
+            padding: 18px 26px 22px;
+            margin-top: -4px
          }
-#scope-projects .proj-tags { 
+#scope-projects .case-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px
+            gap: 6px;
+            padding: 0 26px 24px
          }
-#scope-projects .proj-tag { 
+#scope-projects .case-tag {
             padding: 3px 10px;
             border-radius: 4px;
             font-size: 11px;
             background: rgba(124, 58, 237, 0.1);
             color: var(--violet-light);
             border: 1px solid rgba(124, 58, 237, 0.2)
-         }
-#scope-projects .proj-click-hint { 
-            font-size: 11px;
-            color: var(--violet-light);
-            margin-top: 12px;
-            opacity: 0.7;
-            letter-spacing: 0.5px
          }
 #scope-projects .modal-overlay { 
             display: none;
@@ -1086,7 +1186,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             transition-delay: 0.2s
          }
 @media(max-width:1024px) {
-#scope-projects .proj-grid { 
+#scope-projects .case-media {
                 grid-template-columns: 1fr 1fr
              }
 }
@@ -1094,8 +1194,40 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
 #scope-projects .section { 
                 padding: 80px 24px 60px
              }
-#scope-projects .proj-grid { 
-                grid-template-columns: 1fr
+#scope-projects .case-card {
+                position: static !important;
+                margin-bottom: 20px;
+                box-shadow: none
+             }
+#scope-projects .case-media {
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+                height: auto
+             }
+#scope-projects .case-media.count-1 {
+                height: auto
+             }
+#scope-projects .case-media.count-3 img:nth-child(1),
+#scope-projects .case-media.count-3 img:nth-child(2),
+#scope-projects .case-media.count-3 img:nth-child(3) {
+                grid-column: 1;
+                grid-row: auto
+             }
+#scope-projects .case-media img,
+#scope-projects .case-thumb-placeholder {
+                height: 200px
+             }
+#scope-projects .case-top {
+                flex-wrap: wrap;
+                padding: 18px 20px
+             }
+#scope-projects .case-name {
+                white-space: normal
+             }
+#scope-projects .case-desc,
+#scope-projects .case-tags {
+                padding-left: 20px;
+                padding-right: 20px
              }
 #scope-projects .modal-info-grid { 
                 grid-template-columns: 1fr
@@ -1931,91 +2063,118 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             <span class="section-label">What I've Built</span>
             <h2 class="section-title">Projects</h2>
             <p class="section-sub">Real work, real impact — from robots to web systems.</p>
-            <div class="proj-grid">
+            <div class="case-list">
 
                 <!-- QA BERT - NLP Project -->
-                <div class="proj-card reveal" data-proj="nlp">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/nlp1.png" alt="QA BERT" class="proj-thumb"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="proj-thumb-placeholder" style="display:none">🧠</div>
-                    <div class="proj-body">
-                        <div class="proj-icon-row">
-                            <span class="proj-emoji">🧠</span>
-                            <div class="proj-title">QA with BERT — NLP</div>
+                <div class="case-card reveal" data-proj="nlp">
+                    <div class="case-top">
+                        <div class="case-num-wrap">
+                            <span class="case-num">01</span>
+                            <div>
+                                <div class="case-eyebrow">Deep Learning · NLP</div>
+                                <div class="case-name">QA with BERT — NLP</div>
+                            </div>
                         </div>
-                        <p class="proj-desc">Question Answering system using BERT fine-tuned on SQuAD v1.1. Deep neural network that extracts answers from context paragraphs.</p>
-                        <div class="proj-tags">
-                            <span class="proj-tag">Python</span>
-                            <span class="proj-tag">BERT</span>
-                            <span class="proj-tag">NLP</span>
-                            <span class="proj-tag">SQuAD</span>
-                        </div>
-                        <div class="proj-click-hint">↗ Click to view project</div>
+                        <a href="https://huggingface.co/spaces/leenthaher/qa-bert" target="_blank" class="case-live-btn" onclick="event.stopPropagation()">Live Project</a>
+                    </div>
+                    <div class="case-media count-1">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/nlp1.png" alt="QA BERT"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🧠</div>'">
+                    </div>
+                    <p class="case-desc">Question Answering system using BERT fine-tuned on SQuAD v1.1. Deep neural network that extracts answers from context paragraphs.</p>
+                    <div class="case-tags">
+                        <span class="case-tag">Python</span>
+                        <span class="case-tag">BERT</span>
+                        <span class="case-tag">NLP</span>
+                        <span class="case-tag">SQuAD</span>
                     </div>
                 </div>
 
                 <!-- QA Test Suite -->
-                <div class="proj-card reveal reveal-delay-1" data-proj="qa">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/qa1.jpg" alt="QA Testing" class="proj-thumb"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="proj-thumb-placeholder" style="display:none">🔍</div>
-                    <div class="proj-body">
-                        <div class="proj-icon-row">
-                            <span class="proj-emoji">🔍</span>
-                            <div class="proj-title">QA Test Suite</div>
+                <div class="case-card reveal" data-proj="qa">
+                    <div class="case-top">
+                        <div class="case-num-wrap">
+                            <span class="case-num">02</span>
+                            <div>
+                                <div class="case-eyebrow">Quality Assurance</div>
+                                <div class="case-name">QA Test Suite — Huma-volve</div>
+                            </div>
                         </div>
-                        <p class="proj-desc">Comprehensive test cases and bug reports for web and mobile apps. Covered
-                            API, UI, and regression testing.</p>
-                        <div class="proj-tags">
-                            <span class="proj-tag">Manual Testing</span>
-                            <span class="proj-tag">API Testing</span>
-                            <span class="proj-tag">Bug Reports</span>
-                        </div>
-                        <div class="proj-click-hint">↗ Click to view project</div>
+                        <a href="#" class="case-live-btn" onclick="event.preventDefault();event.stopPropagation();document.querySelector('[data-proj=qa]').click()">View Project</a>
+                    </div>
+                    <div class="case-media count-3">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/qa1.jpg" alt="QA Testing"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🔍</div>'">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/qa2.jpg" alt="QA Testing"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🔍</div>'">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/qa3.jpg" alt="QA Testing"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🔍</div>'">
+                    </div>
+                    <p class="case-desc">Comprehensive test cases and bug reports for web and mobile apps. Covered API, UI, and regression testing.</p>
+                    <div class="case-tags">
+                        <span class="case-tag">Manual Testing</span>
+                        <span class="case-tag">API Testing</span>
+                        <span class="case-tag">Bug Reports</span>
                     </div>
                 </div>
 
                 <!-- Sumo Robot -->
-                <div class="proj-card reveal reveal-delay-2" data-proj="robot">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/robot1.jpg" alt="Sumo Robot" class="proj-thumb"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="proj-thumb-placeholder" style="display:none">🤖</div>
-                    <div class="proj-body">
-                        <div class="proj-icon-row">
-                            <span class="proj-emoji">🤖</span>
-                            <div class="proj-title">Sumo Robot</div>
+                <div class="case-card reveal" data-proj="robot">
+                    <div class="case-top">
+                        <div class="case-num-wrap">
+                            <span class="case-num">03</span>
+                            <div>
+                                <div class="case-eyebrow">Embedded · Robotics</div>
+                                <div class="case-name">Sumo Robot</div>
+                            </div>
                         </div>
-                        <p class="proj-desc">Autonomous competitive robot built with Arduino. Sensor-based detection and
-                            real-time motor control logic.</p>
-                        <div class="proj-tags">
-                            <span class="proj-tag">Arduino</span>
-                            <span class="proj-tag">C++</span>
-                            <span class="proj-tag">Sensors</span>
-                            <span class="proj-tag">Embedded</span>
-                        </div>
-                        <div class="proj-click-hint">↗ Click to view project</div>
+                        <a href="#" class="case-live-btn" onclick="event.preventDefault();event.stopPropagation();document.querySelector('[data-proj=robot]').click()">View Project</a>
+                    </div>
+                    <div class="case-media count-3">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/robot1.jpg" alt="Sumo Robot"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🤖</div>'">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/robot2.jpg" alt="Sumo Robot"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🤖</div>'">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/robot3.jpg" alt="Sumo Robot"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🤖</div>'">
+                    </div>
+                    <p class="case-desc">Autonomous competitive robot built with Arduino. Sensor-based detection and real-time motor control logic.</p>
+                    <div class="case-tags">
+                        <span class="case-tag">Arduino</span>
+                        <span class="case-tag">C++</span>
+                        <span class="case-tag">Sensors</span>
+                        <span class="case-tag">Embedded</span>
                     </div>
                 </div>
 
                 <!-- Obstacle Avoidance Car -->
-                <div class="proj-card reveal reveal-delay-1" data-proj="car">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/car1.jpg" alt="Obstacle Avoidance Car" class="proj-thumb"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="proj-thumb-placeholder" style="display:none">🚗</div>
-                    <div class="proj-body">
-                        <div class="proj-icon-row">
-                            <span class="proj-emoji">🚗</span>
-                            <div class="proj-title">Obstacle Avoidance Car</div>
+                <div class="case-card reveal" data-proj="car">
+                    <div class="case-top">
+                        <div class="case-num-wrap">
+                            <span class="case-num">04</span>
+                            <div>
+                                <div class="case-eyebrow">Embedded · Robotics</div>
+                                <div class="case-name">Obstacle Avoidance Car</div>
+                            </div>
                         </div>
-                        <p class="proj-desc">Autonomous car that detects and avoids obstacles in real-time using ultrasonic sensors and Arduino-controlled motor logic.</p>
-                        <div class="proj-tags">
-                            <span class="proj-tag">Arduino Uno</span>
-                            <span class="proj-tag">C++</span>
-                            <span class="proj-tag">HC-SR04</span>
-                            <span class="proj-tag">L298N</span>
-                            <span class="proj-tag">DC Motors</span>
+                        <a href="#" class="case-live-btn" onclick="event.preventDefault();event.stopPropagation();document.querySelector('[data-proj=car]').click()">Watch Video</a>
+                    </div>
+                    <div class="case-media count-1">
+                        <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/car1.jpg" alt="Obstacle Avoidance Car"
+                            onerror="this.outerHTML='<div class=&quot;case-thumb-placeholder&quot;>🚗</div>'">
+                        <div class="case-play-overlay">
+                            <div class="case-play-btn">
+                                <svg viewBox="0 0 24 24" fill="#050508"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
                         </div>
-                        <div class="proj-click-hint">↗ Click to view project</div>
+                    </div>
+                    <p class="case-desc">Autonomous car that detects and avoids obstacles in real-time using ultrasonic sensors and Arduino-controlled motor logic.</p>
+                    <div class="case-tags">
+                        <span class="case-tag">Arduino Uno</span>
+                        <span class="case-tag">C++</span>
+                        <span class="case-tag">HC-SR04</span>
+                        <span class="case-tag">L298N</span>
+                        <span class="case-tag">DC Motors</span>
                     </div>
                 </div>
 
@@ -2162,7 +2321,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
         document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY });
         function animateCursor() { rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateCursor) }
         animateCursor();
-        document.querySelectorAll('a,button,.cf-card,.dot,.exp-item,.skill-card,.cert-card,.proj-card').forEach(el => {
+        document.querySelectorAll('a,button,.cf-card,.dot,.exp-item,.skill-card,.cert-card,.case-card').forEach(el => {
             el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.5)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)' });
             el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)' })
         });
@@ -2613,7 +2772,7 @@ const projData = {
             });
         }
 
-        document.querySelectorAll('.proj-card').forEach(card => {
+        document.querySelectorAll('.case-card').forEach(card => {
             card.addEventListener('click', () => {
                 const d = projData[card.dataset.proj];
                 if (!d) return;
