@@ -47,46 +47,167 @@
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer }
         .bar { width: 24px; height: 2px; background: var(--text); transition: 0.3s }
 
-        .section { max-width: 1200px; margin: 0 auto; padding: 100px 60px; position: relative; z-index: 1 }
+        .section { max-width: 1200px; margin: 0 auto; padding: 100px 60px 40px; position: relative; z-index: 1 }
         .section-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--violet-light); margin-bottom: 12px; display: block }
         .section-title { font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1 }
-        .section-sub { color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; margin-bottom: 60px }
+        .section-sub { color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; margin-bottom: 0 }
 
-        .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px }
-        .cert-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.3s; cursor: pointer }
-        .cert-card:hover { border-color: rgba(124, 58, 237, 0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) }
-        .cert-img { width: 100%; height: 200px; object-fit: cover; display: block; background: var(--bg3) }
-        .cert-img-placeholder { width: 100%; height: 200px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(34, 211, 238, 0.08)); display: flex; align-items: center; justify-content: center; font-size: 48px }
-        .cert-body { padding: 20px }
-        .cert-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px }
-        .cert-issuer { color: var(--violet-light); font-size: 13px; margin-bottom: 8px }
-        .cert-desc { color: var(--muted); font-size: 13px; line-height: 1.6 }
+        /* ================= CERTIFICATE WHEEL ================= */
+        .cert-stage {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-left: calc(-50vw + 50%);
+            height: 640px;
+            display: flex;
+            align-items: stretch;
+            z-index: 1;
+        }
 
-        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.92); z-index: 1000; align-items: center; justify-content: center; padding: 20px }
-        .lightbox.open { display: flex }
-        .lightbox img { width: 900px; max-width: 90vw; height: 636px; max-height: 90vh; border-radius: 12px; object-fit: contain; background: #fff }
-        .lightbox-close { position: absolute; top: 20px; right: 28px; font-size: 32px; color: var(--muted); cursor: pointer; transition: color 0.2s }
-        .lightbox-close:hover { color: var(--text) }
+        .cert-wheel-col {
+            position: relative;
+            width: 46%;
+            min-width: 320px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .cert-thumb {
+            position: absolute;
+            width: 130px;
+            height: 172px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.08);
+            background: var(--bg3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0.5;
+            filter: grayscale(0.4) brightness(0.7);
+            transition: transform 0.4s cubic-bezier(.16,.8,.24,1), opacity 0.4s ease, filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .cert-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        .cert-thumb.active {
+            opacity: 1;
+            filter: grayscale(0) brightness(1);
+            border-color: var(--violet-light);
+            box-shadow: 0 0 0 4px rgba(124,58,237,0.25), 0 20px 50px rgba(0,0,0,0.6);
+            z-index: 50 !important;
+        }
+
+        .cert-display {
+            position: relative;
+            width: 54%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 40px;
+            text-align: center;
+        }
+
+        .cert-display-imgwrap {
+            max-width: 100%;
+            max-height: 78%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cert-display img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 14px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+            background: #fff;
+            opacity: 0;
+            transform: scale(0.94);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .cert-display img.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .cert-display-info {
+            margin-top: 22px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+        }
+
+        .cert-display-info.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cert-display-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .cert-display-issuer {
+            color: var(--violet-light);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .cert-display-desc {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .cert-hint {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--faint);
+            white-space: nowrap;
+        }
 
         footer { padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); color: var(--faint); font-size: 12px }
         footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--faint) }
 
         .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease }
         .reveal.visible { opacity: 1; transform: translateY(0) }
-        .reveal-delay-1 { transition-delay: 0.1s }
-        .reveal-delay-2 { transition-delay: 0.2s }
-        .reveal-delay-3 { transition-delay: 0.3s }
+
+        @media(max-width:900px) {
+            .cert-stage { height: 520px; flex-direction: column; }
+            .cert-wheel-col { width: 100%; height: 300px; }
+            .cert-display { width: 100%; height: 220px; padding: 10px 20px; }
+            .cert-thumb { width: 90px; height: 118px; }
+        }
 
         @media(max-width:768px) {
             nav { padding: 0 24px }
             .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0; background: var(--bg2); padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border) }
             .nav-links.open { display: flex }
             .hamburger { display: flex }
-            .section { padding: 80px 24px 60px }
-            .cert-grid { grid-template-columns: 1fr }
+            .section { padding: 80px 24px 30px }
             footer { flex-direction: column; gap: 12px; padding: 24px }
         }
-    
+
         /* ================= SITE-WIDE ANIMATION KIT ================= */
         .bg-orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none }
         .bg-orb { position: absolute; border-radius: 50%; filter: blur(110px); will-change: transform }
@@ -97,14 +218,9 @@
         @keyframes orbFloatB { 0%, 100% { transform: translate(0, 0) scale(1) } 50% { transform: translate(-60px, -40px) scale(1.12) } }
         @keyframes orbFloatC { 0%, 100% { transform: translate(0, 0) scale(1) } 50% { transform: translate(-50px, 35px) scale(1.2) } }
 
-        .reveal { opacity: 0; transform: translateY(30px) scale(.97); transition: opacity .85s cubic-bezier(.16,.8,.24,1), transform .85s cubic-bezier(.16,.8,.24,1) }
-        .reveal.visible { opacity: 1; transform: translateY(0) scale(1) }
-
         .nav-links a { position: relative }
         .nav-links a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -6px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--violet-light), var(--cyan)); transition: right .35s cubic-bezier(.16,.8,.24,1) }
         .nav-links a:hover::after, .nav-links a.active::after { right: 0 }
-
-        [class*="-card"]:not(.float-card) { transition: transform .4s cubic-bezier(.16,.8,.24,1), box-shadow .4s ease, border-color .4s ease }
 
         .btn { position: relative; overflow: hidden; transition: transform .3s cubic-bezier(.16,.8,.24,1), box-shadow .3s ease }
         .btn::before { content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(120deg, transparent, rgba(255,255,255,.25), transparent); transform: skewX(-20deg); transition: left .6s ease }
@@ -119,13 +235,8 @@
 
 <body>
     <div class="bg-orbs"><div class="bg-orb bg-orb-a"></div><div class="bg-orb bg-orb-b"></div><div class="bg-orb bg-orb-c"></div></div>
-<div class="cursor" id="cursor"></div>
+    <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
-
-    <div class="lightbox" id="lightbox">
-        <span class="lightbox-close" id="lightbox-close">✕</span>
-        <img src="" alt="Certificate" id="lightbox-img">
-    </div>
 
     <nav>
         <div class="logo">Leen Thaher</div>
@@ -151,107 +262,26 @@
         <div class="section reveal">
             <span class="section-label">Credentials</span>
             <h2 class="section-title">Certificates</h2>
-            <p class="section-sub">Verified achievements from real training programs and workshops.</p>
-            <div class="cert-grid">
+            <p class="section-sub">Hover a certificate on the wheel, or use the arrow keys, to preview it.</p>
+        </div>
 
-                <!-- Certificate 0: Data Science -->
-                <div class="cert-card reveal" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/IBM-Data-Science-Certificate.jpg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/IBM-Data-Science-Certificate.jpg" alt="What is Data Science Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">📊</div>
-                    <div class="cert-body">
-                        <div class="cert-title">What is Data Science?</div>
-                        <div class="cert-issuer">IBM · Coursera</div>
-                        <div class="cert-desc">Completed an online course authorized by IBM and offered through Coursera, covering the fundamentals and real-world applications of data science.</div>
-                    </div>
+        <div class="cert-stage">
+            <div class="cert-wheel-col" id="certWheelCol"></div>
+
+            <div class="cert-display">
+                <div class="cert-display-imgwrap">
+                    <img id="certDisplayImg" src="" alt="Certificate">
                 </div>
-
-                <!-- Certificate 1: QA -->
-                <div class="cert-card reveal" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher.jpg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher.jpg" alt="QA Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🏆</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Software Testing & QA</div>
-                        <div class="cert-issuer">Huma-volve</div>
-                        <div class="cert-desc">Completed a full QA training program covering manual testing, API testing, bug reporting, and mobile application testing.</div>
-                    </div>
+                <div class="cert-display-info" id="certDisplayInfo">
+                    <div class="cert-display-title" id="certDisplayTitle"></div>
+                    <div class="cert-display-issuer" id="certDisplayIssuer"></div>
+                    <div class="cert-display-desc" id="certDisplayDesc"></div>
                 </div>
-
-                <!-- Certificate 2: Robotics -->
-                <div class="cert-card reveal reveal-delay-1" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher_robot_jpg.jpeg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher_robot_jpg.jpeg" alt="Robotics Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🤖</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Robotics & Embedded Systems</div>
-                        <div class="cert-issuer">Robotics Workshop</div>
-                        <div class="cert-desc">Designed and built a competitive Sumo Robot using Arduino and C++. Gained hands-on experience with sensors, actuators, and control logic.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 3: Python -->
-                <div class="cert-card reveal reveal-delay-2" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%282%29.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%282%29.png" alt="Python Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🐍</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Python Programming Basics</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Completed a foundational course in Python programming covering core syntax, data structures, and basic algorithms.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 4: Overview of AI -->
-                <div class="cert-card reveal reveal-delay-3" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%288%29.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%288%29.png" alt="Overview of AI Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🤖</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Overview of AI</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Gained foundational knowledge in Artificial Intelligence concepts, machine learning basics, and modern AI applications.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 5: IoT -->
-                <div class="cert-card reveal" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%283%29.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%283%29.png" alt="IoT Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🌐</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Internet of Things Technology and Applications</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Explored IoT architecture, smart devices, and real-world applications of connected technologies.</div>
-                    </div>
-                </div>
-
-               <!-- Certificate 6: HCIA-AI -->
-                <div class="cert-card reveal reveal-delay-1" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%209.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%209.png" alt="HCIA-AI Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🧠</div>
-                    <div class="cert-body">
-                        <div class="cert-title">HCIA-AI V4.0 Course</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Studied advanced AI engineering concepts including deep learning, neural networks, and AI model development under Huawei's HCIA track.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 7: Udemy Python Bootcamp -->
-                <div class="cert-card reveal reveal-delay-2" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/UC-27b0a75b-ae2c-429b-979d-b12a4e45ea63.jpg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/UC-27b0a75b-ae2c-429b-979d-b12a4e45ea63.jpg" alt="Udemy Python Bootcamp" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🐍</div>
-                    <div class="cert-body">
-                        <div class="cert-title">100 Days of Code: The Complete Python Pro Bootcamp</div>
-                        <div class="cert-issuer">Udemy · Dr. Angela Yu</div>
-                        <div class="cert-desc">Completed 56.5 hours of hands-on Python training covering web development, automation, data science, and real-world projects.</div>
-                    </div>
-                </div>
-
             </div>
-        </div>    </section>
+
+            <div class="cert-hint">Use ↑ / ↓ or hover to browse</div>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-logo">LT</div>
@@ -260,9 +290,141 @@
     </footer>
 
     <script>
-        function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('open') }
-        document.getElementById('lightbox-close').addEventListener('click', () => document.getElementById('lightbox').classList.remove('open'));
-        document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) document.getElementById('lightbox').classList.remove('open') });
+        const certs = [
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/IBM-Data-Science-Certificate.jpg",
+                title: "What is Data Science?",
+                issuer: "IBM · Coursera",
+                desc: "Completed an online course authorized by IBM and offered through Coursera, covering the fundamentals and real-world applications of data science."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher.jpg",
+                title: "Software Testing & QA",
+                issuer: "Huma-volve",
+                desc: "Completed a full QA training program covering manual testing, API testing, bug reporting, and mobile application testing."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher_robot_jpg.jpeg",
+                title: "Robotics & Embedded Systems",
+                issuer: "Robotics Workshop",
+                desc: "Designed and built a competitive Sumo Robot using Arduino and C++. Gained hands-on experience with sensors, actuators, and control logic."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%282%29.png",
+                title: "Python Programming Basics",
+                issuer: "Huawei ICT Academy",
+                desc: "Completed a foundational course in Python programming covering core syntax, data structures, and basic algorithms."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%288%29.png",
+                title: "Overview of AI",
+                issuer: "Huawei ICT Academy",
+                desc: "Gained foundational knowledge in Artificial Intelligence concepts, machine learning basics, and modern AI applications."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%283%29.png",
+                title: "Internet of Things Technology and Applications",
+                issuer: "Huawei ICT Academy",
+                desc: "Explored IoT architecture, smart devices, and real-world applications of connected technologies."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%209.png",
+                title: "HCIA-AI V4.0 Course",
+                issuer: "Huawei ICT Academy",
+                desc: "Studied advanced AI engineering concepts including deep learning, neural networks, and AI model development under Huawei's HCIA track."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/UC-27b0a75b-ae2c-429b-979d-b12a4e45ea63.jpg",
+                title: "100 Days of Code: The Complete Python Pro Bootcamp",
+                issuer: "Udemy · Dr. Angela Yu",
+                desc: "Completed 56.5 hours of hands-on Python training covering web development, automation, data science, and real-world projects."
+            }
+        ];
+
+        const wheelCol = document.getElementById('certWheelCol');
+        const displayImg = document.getElementById('certDisplayImg');
+        const displayInfo = document.getElementById('certDisplayInfo');
+        const displayTitle = document.getElementById('certDisplayTitle');
+        const displayIssuer = document.getElementById('certDisplayIssuer');
+        const displayDesc = document.getElementById('certDisplayDesc');
+
+        let activeIndex = 0;
+        const thumbs = [];
+
+        function layoutWheel() {
+            const colH = wheelCol.clientHeight;
+            const cy = colH / 2;
+            const n = certs.length;
+            const EDGE = 30; // degrees, arc spread from -EDGE to +EDGE
+            const R = Math.max(colH * 1.1, 620); // radius
+            const cx = -(R - 90); // pulls the circle center off-screen to the left
+
+            thumbs.forEach((thumb, i) => {
+                const t = n > 1 ? (i / (n - 1)) : 0.5;
+                const angleDeg = -EDGE + t * (EDGE * 2);
+                const angleRad = angleDeg * Math.PI / 180;
+                const x = cx + R * Math.cos(angleRad);
+                const y = cy + R * Math.sin(angleRad);
+                thumb.style.left = x + 'px';
+                thumb.style.top = y + 'px';
+                thumb.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg)`;
+                thumb.style.zIndex = 100 - Math.abs(i - activeIndex);
+            });
+        }
+
+        function renderWheel() {
+            wheelCol.innerHTML = '';
+            thumbs.length = 0;
+            certs.forEach((cert, i) => {
+                const el = document.createElement('div');
+                el.className = 'cert-thumb';
+                el.tabIndex = 0;
+                el.innerHTML = `<img src="${cert.img}" alt="${cert.title}" onerror="this.style.opacity='0.2'">`;
+                el.addEventListener('mouseenter', () => setActive(i));
+                el.addEventListener('focus', () => setActive(i));
+                el.addEventListener('click', () => setActive(i));
+                wheelCol.appendChild(el);
+                thumbs.push(el);
+            });
+            layoutWheel();
+        }
+
+        function setActive(i) {
+            if (i < 0) i = 0;
+            if (i > certs.length - 1) i = certs.length - 1;
+            activeIndex = i;
+            thumbs.forEach((t, idx) => t.classList.toggle('active', idx === activeIndex));
+            layoutWheel();
+
+            const cert = certs[activeIndex];
+            displayImg.classList.remove('show');
+            displayInfo.classList.remove('show');
+            setTimeout(() => {
+                displayImg.src = cert.img;
+                displayTitle.textContent = cert.title;
+                displayIssuer.textContent = cert.issuer;
+                displayDesc.textContent = cert.desc;
+                displayImg.classList.add('show');
+                displayInfo.classList.add('show');
+            }, 120);
+        }
+
+        renderWheel();
+        setActive(0);
+        window.addEventListener('resize', layoutWheel);
+
+        document.addEventListener('keydown', (e) => {
+            const tag = (document.activeElement && document.activeElement.tagName) || '';
+            if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                setActive(Math.min(activeIndex + 1, certs.length - 1));
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                setActive(Math.max(activeIndex - 1, 0));
+            }
+        });
+
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
         document.querySelectorAll('.nav-links a').forEach(link => { if (link.getAttribute('href') === currentPath) link.classList.add('active') });
         const cursor = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
