@@ -760,6 +760,92 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
              }
 }
 
+/* ---- certificates (wheel) ---- */
+#scope-certificates .cert-stage {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: calc(-50vw + 50%);
+    height: 760px;
+    display: flex;
+    align-items: stretch;
+    z-index: 1;
+}
+#scope-certificates .cert-wheel-col {
+    position: relative;
+    width: 52%;
+    min-width: 360px;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+#scope-certificates .cert-wheel-col.grabbing { cursor: grabbing; }
+#scope-certificates .cert-thumb {
+    position: absolute;
+    width: 170px;
+    height: 224px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.08);
+    background: var(--bg3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    will-change: transform;
+    pointer-events: auto;
+}
+#scope-certificates .cert-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-user-drag: none;
+}
+#scope-certificates .cert-thumb.active {
+    border-color: var(--violet-light);
+    box-shadow: 0 0 0 4px rgba(124,58,237,0.25), 0 20px 50px rgba(0,0,0,0.6);
+}
+#scope-certificates .cert-display {
+    position: relative;
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    text-align: center;
+}
+#scope-certificates .cert-display-imgwrap {
+    max-width: 100%; max-height: 78%; display: flex; align-items: center; justify-content: center;
+}
+#scope-certificates .cert-display img {
+    max-width: 100%; max-height: 100%; border-radius: 14px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6); background: #fff;
+    opacity: 0; transform: scale(0.94);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+#scope-certificates .cert-display img.show { opacity: 1; transform: scale(1); }
+#scope-certificates .cert-display-info {
+    margin-top: 22px; opacity: 0; transform: translateY(10px);
+    transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+}
+#scope-certificates .cert-display-info.show { opacity: 1; transform: translateY(0); }
+#scope-certificates .cert-display-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+#scope-certificates .cert-display-issuer { color: var(--violet-light); font-size: 14px; margin-bottom: 10px; }
+#scope-certificates .cert-display-desc { color: var(--muted); font-size: 13px; line-height: 1.6; max-width: 420px; margin: 0 auto; }
+#scope-certificates .cert-hint {
+    position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); white-space: nowrap;
+}
+@media(max-width:900px) {
+#scope-certificates .cert-stage { height: 560px; flex-direction: column; }
+#scope-certificates .cert-wheel-col { width: 100%; height: 340px; }
+#scope-certificates .cert-display { width: 100%; height: 220px; padding: 10px 20px; }
+#scope-certificates .cert-thumb { width: 110px; height: 146px; }
+}
+@media(max-width:768px) {
+#scope-certificates .section { padding: 80px 24px 60px }
+}
+
 
 /* ---- projects ---- */
 #scope-projects .section { 
@@ -1584,7 +1670,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#skills">Skills</a></li>
-            <li><a href="Certificates.html">Certificates</a></li>
+            <li><a href="#certificates">Certificates</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#highlights">Highlights</a></li>
             <li><a href="#ambitions">Goals</a></li>
@@ -1899,6 +1985,30 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
     </section>
     </div>
 
+    <div id="scope-certificates">
+    <section id="certificates" style="min-height:100vh;padding-top:140px;">
+        <div class="section reveal">
+            <span class="section-label">Credentials</span>
+            <h2 class="section-title">Certificates</h2>
+            <p class="section-sub">Drag the wheel, scroll over it, or use the arrow keys to spin through certificates.</p>
+        </div>
+        <div class="cert-stage">
+            <div class="cert-wheel-col" id="certWheelCol"></div>
+            <div class="cert-display">
+                <div class="cert-display-imgwrap">
+                    <img id="certDisplayImg" src="" alt="Certificate">
+                </div>
+                <div class="cert-display-info" id="certDisplayInfo">
+                    <div class="cert-display-title" id="certDisplayTitle"></div>
+                    <div class="cert-display-issuer" id="certDisplayIssuer"></div>
+                    <div class="cert-display-desc" id="certDisplayDesc"></div>
+                </div>
+            </div>
+            <div class="cert-hint">Drag / Scroll / ↑ ↓ to spin</div>
+        </div>
+    </section>
+    </div>
+
     <div id="scope-projects">
     <div class="modal-overlay" id="projModal">
         <div class="modal-box">
@@ -2198,7 +2308,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
         window.addEventListener('scroll', () => { document.querySelector('nav').style.boxShadow = window.scrollY > 40 ? '0 8px 40px rgba(0,0,0,0.5)' : 'none' });
 
         // Highlight the active nav link based on which section is in view (single-page site)
-        const navSections = ['hero','about','experience','skills','projects','highlights','ambitions','contact']
+        const navSections = ['hero','about','experience','skills','certificates','projects','highlights','ambitions','contact']
             .map(id => document.getElementById(id)).filter(Boolean);
         const navLinkMap = {};
         document.querySelectorAll('.nav-links a').forEach(a => {
@@ -2688,6 +2798,221 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
             window.location.href = `mailto:leenthaher914@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             document.getElementById('success-msg').style.display = 'block';
             this.reset();
+        });
+})();</script>
+    <script>(function(){
+const certs = [
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/IBM-Data-Science-Certificate.jpg",
+                title: "What is Data Science?",
+                issuer: "IBM · Coursera",
+                desc: "Completed an online course authorized by IBM and offered through Coursera, covering the fundamentals and real-world applications of data science."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher.jpg",
+                title: "Software Testing & QA",
+                issuer: "Huma-volve",
+                desc: "Completed a full QA training program covering manual testing, API testing, bug reporting, and mobile application testing."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher_robot_jpg.jpeg",
+                title: "Robotics & Embedded Systems",
+                issuer: "Robotics Workshop",
+                desc: "Designed and built a competitive Sumo Robot using Arduino and C++. Gained hands-on experience with sensors, actuators, and control logic."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%282%29.png",
+                title: "Python Programming Basics",
+                issuer: "Huawei ICT Academy",
+                desc: "Completed a foundational course in Python programming covering core syntax, data structures, and basic algorithms."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%288%29.png",
+                title: "Overview of AI",
+                issuer: "Huawei ICT Academy",
+                desc: "Gained foundational knowledge in Artificial Intelligence concepts, machine learning basics, and modern AI applications."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%283%29.png",
+                title: "Internet of Things Technology and Applications",
+                issuer: "Huawei ICT Academy",
+                desc: "Explored IoT architecture, smart devices, and real-world applications of connected technologies."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%209.png",
+                title: "HCIA-AI V4.0 Course",
+                issuer: "Huawei ICT Academy",
+                desc: "Studied advanced AI engineering concepts including deep learning, neural networks, and AI model development under Huawei's HCIA track."
+            },
+            {
+                img: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/UC-27b0a75b-ae2c-429b-979d-b12a4e45ea63.jpg",
+                title: "100 Days of Code: The Complete Python Pro Bootcamp",
+                issuer: "Udemy · Dr. Angela Yu",
+                desc: "Completed 56.5 hours of hands-on Python training covering web development, automation, data science, and real-world projects."
+            }
+        ];
+
+        const wheelCol = document.getElementById('certWheelCol');
+        const displayImg = document.getElementById('certDisplayImg');
+        const displayInfo = document.getElementById('certDisplayInfo');
+        const displayTitle = document.getElementById('certDisplayTitle');
+        const displayIssuer = document.getElementById('certDisplayIssuer');
+        const displayDesc = document.getElementById('certDisplayDesc');
+        if (!wheelCol) return;
+
+        const N = certs.length;
+        const SPACING_DEG = 15;
+        const PX_PER_STEP = 90;
+        let pos = 0;
+        let shownIndex = -1;
+        const thumbs = [];
+
+        function clampPos(p) { return Math.max(0, Math.min(N - 1, p)); }
+
+        function layoutWheel() {
+            const colH = wheelCol.clientHeight;
+            const colW = wheelCol.clientWidth;
+            const cy = colH / 2;
+            const R = Math.max(colH * 1.3, colW * 1.9, 900);
+            const cx = -(R - 190);
+
+            thumbs.forEach((thumb, i) => {
+                const dist = i - pos;
+                const angleDeg = dist * SPACING_DEG;
+                const angleRad = angleDeg * Math.PI / 180;
+                const x = cx + R * Math.cos(angleRad);
+                const y = cy + R * Math.sin(angleRad);
+
+                const absDist = Math.abs(dist);
+                const scale = Math.max(0.55, 1 - absDist * 0.13);
+                const opacity = Math.max(0.22, 1 - absDist * 0.24);
+                const gray = Math.min(0.65, absDist * 0.32);
+                const bright = Math.max(0.55, 1 - absDist * 0.14);
+
+                thumb.style.left = x + 'px';
+                thumb.style.top = y + 'px';
+                thumb.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg) scale(${scale})`;
+                thumb.style.opacity = opacity;
+                thumb.style.filter = `grayscale(${gray}) brightness(${bright})`;
+                thumb.style.zIndex = Math.round(200 - absDist * 10);
+            });
+
+            const nearest = Math.round(clampPos(pos));
+            thumbs.forEach((t, idx) => t.classList.toggle('active', idx === nearest));
+            if (nearest !== shownIndex) showDetails(nearest);
+        }
+
+        function renderWheel() {
+            wheelCol.innerHTML = '';
+            thumbs.length = 0;
+            certs.forEach((cert, i) => {
+                const el = document.createElement('div');
+                el.className = 'cert-thumb';
+                el.innerHTML = `<img src="${cert.img}" alt="${cert.title}" onerror="this.style.opacity='0.2'">`;
+                el.addEventListener('click', () => {
+                    if (didDrag) return;
+                    animateTo(i);
+                });
+                wheelCol.appendChild(el);
+                thumbs.push(el);
+            });
+            layoutWheel();
+        }
+
+        function showDetails(i) {
+            shownIndex = i;
+            const cert = certs[i];
+            displayImg.classList.remove('show');
+            displayInfo.classList.remove('show');
+            setTimeout(() => {
+                displayImg.src = cert.img;
+                displayTitle.textContent = cert.title;
+                displayIssuer.textContent = cert.issuer;
+                displayDesc.textContent = cert.desc;
+                displayImg.classList.add('show');
+                displayInfo.classList.add('show');
+            }, 100);
+        }
+
+        function setPos(p) {
+            pos = clampPos(p);
+            layoutWheel();
+        }
+
+        let animRAF = null;
+        function animateTo(target) {
+            target = clampPos(target);
+            if (animRAF) cancelAnimationFrame(animRAF);
+            const start = pos;
+            const startTime = performance.now();
+            const duration = 420;
+            function step(now) {
+                const t = Math.min(1, (now - startTime) / duration);
+                const eased = 1 - Math.pow(1 - t, 3);
+                setPos(start + (target - start) * eased);
+                if (t < 1) animRAF = requestAnimationFrame(step);
+            }
+            animRAF = requestAnimationFrame(step);
+        }
+
+        renderWheel();
+        showDetails(0);
+        window.addEventListener('resize', layoutWheel);
+
+        let isDragging = false, didDrag = false, dragStartY = 0, dragStartPos = 0;
+
+        function dragStart(clientY) {
+            if (animRAF) cancelAnimationFrame(animRAF);
+            isDragging = true;
+            didDrag = false;
+            dragStartY = clientY;
+            dragStartPos = pos;
+            wheelCol.classList.add('grabbing');
+        }
+        function dragMove(clientY) {
+            if (!isDragging) return;
+            const deltaY = clientY - dragStartY;
+            if (Math.abs(deltaY) > 4) didDrag = true;
+            setPos(dragStartPos - deltaY / PX_PER_STEP);
+        }
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            wheelCol.classList.remove('grabbing');
+            animateTo(Math.round(pos));
+            setTimeout(() => { didDrag = false; }, 50);
+        }
+
+        wheelCol.addEventListener('mousedown', e => { dragStart(e.clientY); e.preventDefault(); });
+        window.addEventListener('mousemove', e => dragMove(e.clientY));
+        window.addEventListener('mouseup', dragEnd);
+
+        wheelCol.addEventListener('touchstart', e => dragStart(e.touches[0].clientY), { passive: true });
+        window.addEventListener('touchmove', e => { if (isDragging) dragMove(e.touches[0].clientY); }, { passive: true });
+        window.addEventListener('touchend', dragEnd);
+
+        let wheelSnapTimer = null;
+        wheelCol.addEventListener('wheel', e => {
+            e.preventDefault();
+            if (animRAF) cancelAnimationFrame(animRAF);
+            setPos(pos + e.deltaY * 0.012);
+            clearTimeout(wheelSnapTimer);
+            wheelSnapTimer = setTimeout(() => animateTo(Math.round(pos)), 160);
+        }, { passive: false });
+
+        document.addEventListener('keydown', (e) => {
+            const tag = (document.activeElement && document.activeElement.tagName) || '';
+            if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+            const rect = wheelCol.getBoundingClientRect();
+            const inView = rect.top < window.innerHeight && rect.bottom > 0;
+            if (!inView) return;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                animateTo(Math.round(pos) + 1);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                animateTo(Math.round(pos) - 1);
+            }
         });
 })();</script>
     <script>
