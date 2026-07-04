@@ -760,34 +760,6 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
              }
 }
 
-/* ---- certificates ---- */
-#scope-certificates .section {  max-width: 1200px; margin: 0 auto; padding: 100px 60px; position: relative; z-index: 1  }
-#scope-certificates .section-label {  font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--violet-light); margin-bottom: 12px; display: block  }
-#scope-certificates .section-title {  font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1  }
-#scope-certificates .section-sub {  color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; margin-bottom: 60px  }
-#scope-certificates .cert-grid {  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px  }
-#scope-certificates .cert-card {  background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.3s; cursor: pointer  }
-#scope-certificates .cert-card:hover {  border-color: rgba(124, 58, 237, 0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4)  }
-#scope-certificates .cert-img {  width: 100%; height: 200px; object-fit: cover; display: block; background: var(--bg3)  }
-#scope-certificates .cert-img-placeholder {  width: 100%; height: 200px; background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(34, 211, 238, 0.08)); display: flex; align-items: center; justify-content: center; font-size: 48px  }
-#scope-certificates .cert-body {  padding: 20px  }
-#scope-certificates .cert-title {  font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 6px  }
-#scope-certificates .cert-issuer {  color: var(--violet-light); font-size: 13px; margin-bottom: 8px  }
-#scope-certificates .cert-desc {  color: var(--muted); font-size: 13px; line-height: 1.6  }
-#scope-certificates .lightbox {  display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.92); z-index: 1000; align-items: center; justify-content: center; padding: 20px  }
-#scope-certificates .lightbox.open {  display: flex  }
-#scope-certificates .lightbox img {  width: 900px; max-width: 90vw; height: 636px; max-height: 90vh; border-radius: 12px; object-fit: contain; background: #fff  }
-#scope-certificates .lightbox-close {  position: absolute; top: 20px; right: 28px; font-size: 32px; color: var(--muted); cursor: pointer; transition: color 0.2s  }
-#scope-certificates .lightbox-close:hover {  color: var(--text)  }
-#scope-certificates .reveal {  opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease  }
-#scope-certificates .reveal.visible {  opacity: 1; transform: translateY(0)  }
-#scope-certificates .reveal-delay-1 {  transition-delay: 0.1s  }
-#scope-certificates .reveal-delay-2 {  transition-delay: 0.2s  }
-#scope-certificates .reveal-delay-3 {  transition-delay: 0.3s  }
-@media(max-width:768px) {
-#scope-certificates .section {  padding: 80px 24px 60px  }
-#scope-certificates .cert-grid {  grid-template-columns: 1fr  }
-}
 
 /* ---- projects ---- */
 #scope-projects .section { 
@@ -1612,7 +1584,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#skills">Skills</a></li>
-            <li><a href="#certificates">Certificates</a></li>
+            <li><a href="Certificates.html">Certificates</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#highlights">Highlights</a></li>
             <li><a href="#ambitions">Goals</a></li>
@@ -1927,118 +1899,6 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
     </section>
     </div>
 
-    <div id="scope-certificates">
-    <div class="lightbox" id="lightbox">
-        <span class="lightbox-close" id="lightbox-close">✕</span>
-        <img src="" alt="Certificate" id="lightbox-img">
-    </div>
-    <section id="certificates" style="min-height:100vh;padding-top:140px;">
-        <div class="section reveal">
-            <span class="section-label">Credentials</span>
-            <h2 class="section-title">Certificates</h2>
-            <p class="section-sub">Verified achievements from real training programs and workshops.</p>
-            <div class="cert-grid">
-
-                <!-- Certificate 0: Data Science -->
-                <div class="cert-card reveal" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/IBM-Data-Science-Certificate.jpg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/IBM-Data-Science-Certificate.jpg" alt="What is Data Science Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">📊</div>
-                    <div class="cert-body">
-                        <div class="cert-title">What is Data Science?</div>
-                        <div class="cert-issuer">IBM · Coursera</div>
-                        <div class="cert-desc">Completed an online course authorized by IBM and offered through Coursera, covering the fundamentals and real-world applications of data science.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 1: QA -->
-                <div class="cert-card reveal" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher.jpg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher.jpg" alt="QA Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🏆</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Software Testing & QA</div>
-                        <div class="cert-issuer">Huma-volve</div>
-                        <div class="cert-desc">Completed a full QA training program covering manual testing, API testing, bug reporting, and mobile application testing.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 2: Robotics -->
-                <div class="cert-card reveal reveal-delay-1" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher_robot_jpg.jpeg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen_thaher_robot_jpg.jpeg" alt="Robotics Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🤖</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Robotics & Embedded Systems</div>
-                        <div class="cert-issuer">Robotics Workshop</div>
-                        <div class="cert-desc">Designed and built a competitive Sumo Robot using Arduino and C++. Gained hands-on experience with sensors, actuators, and control logic.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 3: Python -->
-                <div class="cert-card reveal reveal-delay-2" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%282%29.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%282%29.png" alt="Python Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🐍</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Python Programming Basics</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Completed a foundational course in Python programming covering core syntax, data structures, and basic algorithms.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 4: Overview of AI -->
-                <div class="cert-card reveal reveal-delay-3" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%288%29.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%288%29.png" alt="Overview of AI Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🤖</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Overview of AI</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Gained foundational knowledge in Artificial Intelligence concepts, machine learning basics, and modern AI applications.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 5: IoT -->
-                <div class="cert-card reveal" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%283%29.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%20%283%29.png" alt="IoT Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🌐</div>
-                    <div class="cert-body">
-                        <div class="cert-title">Internet of Things Technology and Applications</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Explored IoT architecture, smart devices, and real-world applications of connected technologies.</div>
-                    </div>
-                </div>
-
-               <!-- Certificate 6: HCIA-AI -->
-                <div class="cert-card reveal reveal-delay-1" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%209.png')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/photo%209.png" alt="HCIA-AI Certificate" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🧠</div>
-                    <div class="cert-body">
-                        <div class="cert-title">HCIA-AI V4.0 Course</div>
-                        <div class="cert-issuer">Huawei ICT Academy</div>
-                        <div class="cert-desc">Studied advanced AI engineering concepts including deep learning, neural networks, and AI model development under Huawei's HCIA track.</div>
-                    </div>
-                </div>
-
-                <!-- Certificate 7: Udemy Python Bootcamp -->
-                <div class="cert-card reveal reveal-delay-2" onclick="openLightbox('https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/UC-27b0a75b-ae2c-429b-979d-b12a4e45ea63.jpg')">
-                    <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/UC-27b0a75b-ae2c-429b-979d-b12a4e45ea63.jpg" alt="Udemy Python Bootcamp" class="cert-img"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div class="cert-img-placeholder" style="display:none">🐍</div>
-                    <div class="cert-body">
-                        <div class="cert-title">100 Days of Code: The Complete Python Pro Bootcamp</div>
-                        <div class="cert-issuer">Udemy · Dr. Angela Yu</div>
-                        <div class="cert-desc">Completed 56.5 hours of hands-on Python training covering web development, automation, data science, and real-world projects.</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>    </section>
-    </div>
-
     <div id="scope-projects">
     <div class="modal-overlay" id="projModal">
         <div class="modal-box">
@@ -2338,7 +2198,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
         window.addEventListener('scroll', () => { document.querySelector('nav').style.boxShadow = window.scrollY > 40 ? '0 8px 40px rgba(0,0,0,0.5)' : 'none' });
 
         // Highlight the active nav link based on which section is in view (single-page site)
-        const navSections = ['hero','about','experience','skills','certificates','projects','highlights','ambitions','contact']
+        const navSections = ['hero','about','experience','skills','projects','highlights','ambitions','contact']
             .map(id => document.getElementById(id)).filter(Boolean);
         const navLinkMap = {};
         document.querySelectorAll('.nav-links a').forEach(a => {
@@ -2694,9 +2554,6 @@ const skillsData = {
         modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open') });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open') });
 })();</script>
-    <script>function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('open') }
-        document.getElementById('lightbox-close').addEventListener('click', () => document.getElementById('lightbox').classList.remove('open'));
-        document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) document.getElementById('lightbox').classList.remove('open') });</script>
     <script>(function(){
 const projData = {
             nlp: {
