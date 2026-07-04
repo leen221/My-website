@@ -28,37 +28,30 @@
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer }
         .bar { width: 24px; height: 2px; background: var(--text); transition: 0.3s }
 
-        /* ---------- Page header ---------- */
-        .page-header { padding: 150px 60px 20px; position: relative; z-index: 2; max-width: 1200px; margin: 0 auto }
-        .page-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); padding: 6px 14px; border-radius: 100px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--violet-light); margin-bottom: 20px }
-        .page-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--violet-light); animation: blink 2s ease infinite }
-        @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
-        .page-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 14px }
-        .page-title span { background: linear-gradient(135deg, var(--violet-light) 0%, var(--cyan) 50%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
-        .page-subtitle { color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 560px }
+        /* ---------- Centered stage (fills the page) ---------- */
+        .stage { position: relative; min-height: 100vh; padding-top: 72px; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 2 }
+        .coverflow { position: relative; width: 100%; height: 520px; display: flex; align-items: center; justify-content: center; touch-action: pan-y }
 
-        /* ---------- Carousel ---------- */
-        .carousel-section { padding: 50px 0 30px; position: relative; z-index: 2 }
-        .carousel-heading { padding: 0 60px; font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 10px }
-        .carousel-heading .line { flex: 1; height: 1px; background: var(--border) }
-        .carousel-wrap { overflow: hidden; position: relative; padding: 10px 0 40px; -webkit-mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%) }
-        .carousel-track { display: flex; gap: 22px; width: max-content; animation: scroll-left 35s linear infinite; padding-left: 60px }
-        .carousel-track.reverse { animation-direction: reverse; animation-duration: 42s }
-        .carousel-wrap:hover .carousel-track { animation-play-state: paused }
-        @keyframes scroll-left { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .cf-card { position: absolute; left: 50%; top: 50%; width: 340px; height: 480px; margin-left: -170px; margin-top: -240px; border-radius: 20px; overflow: hidden; background: var(--bg3); border: 1px solid var(--border); cursor: pointer; user-select: none; transition: transform 0.5s cubic-bezier(.22,.61,.36,1), opacity 0.5s ease, filter 0.5s ease, box-shadow 0.5s ease }
+        .cf-card.is-active { box-shadow: 0 25px 70px rgba(124, 58, 237, 0.45), 0 0 0 2px rgba(167, 139, 250, 0.5) }
+        .cf-card img, .cf-card video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-user-drag: none }
+        .cf-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.92) 5%, rgba(0,0,0,0.15) 55%, transparent 75%) }
+        .cf-badge { position: absolute; top: 14px; left: 14px; background: rgba(5,5,8,0.65); backdrop-filter: blur(6px); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600 }
+        .cf-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 2px solid rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease }
+        .cf-card.is-active .cf-play { opacity: 1; transform: translate(-50%, -50%) scale(1) }
+        .cf-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px; opacity: 0; transition: opacity 0.4s ease }
+        .cf-card.is-active .cf-info { opacity: 1 }
+        .cf-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 4px }
+        .cf-sub { font-size: 12px; color: var(--muted) }
 
-        .card { position: relative; width: 230px; height: 330px; border-radius: 16px; overflow: hidden; flex-shrink: 0; cursor: pointer; background: var(--bg3); border: 1px solid var(--border); transition: transform 0.35s ease, box-shadow 0.35s ease }
-        .card:hover { transform: scale(1.07) translateY(-6px); box-shadow: 0 20px 50px rgba(124, 58, 237, 0.35); z-index: 5 }
-        .card img, .card video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none }
-        .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 5%, rgba(0,0,0,0.1) 55%, transparent 75%) }
-        .card-badge { position: absolute; top: 12px; left: 12px; background: rgba(5,5,8,0.65); backdrop-filter: blur(6px); border: 1px solid var(--border); padding: 4px 9px; border-radius: 7px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px }
-        .card-badge .star { color: #ffd166 }
-        .card-type { position: absolute; top: 12px; right: 12px; background: rgba(5,5,8,0.65); backdrop-filter: blur(6px); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center }
-        .card-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7); width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 2px solid rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease }
-        .card:hover .card-play { opacity: 1; transform: translate(-50%, -50%) scale(1) }
-        .card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px }
-        .card-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; margin-bottom: 4px; line-height: 1.2 }
-        .card-sub { font-size: 11px; color: var(--muted); letter-spacing: 0.2px }
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: all 0.2s ease; backdrop-filter: blur(10px) }
+        .nav-arrow:hover { border-color: var(--violet-light); color: var(--violet-light); background: rgba(124, 58, 237, 0.12) }
+        .nav-arrow.left { left: 30px }
+        .nav-arrow.right { right: 30px }
+
+        .dots { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 50 }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); cursor: pointer; transition: all 0.25s ease }
+        .dot.is-active { background: var(--violet-light); width: 22px; border-radius: 4px }
 
         /* ---------- Modal viewer ---------- */
         .modal-overlay { position: fixed; inset: 0; background: rgba(2,2,6,0.94); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 40px; cursor: auto }
@@ -73,20 +66,17 @@
 
         footer { padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); color: var(--faint); font-size: 12px }
         footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--faint) }
-        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease }
-        .reveal.visible { opacity: 1; transform: translateY(0) }
-        .reveal-delay-1 { transition-delay: 0.1s }
-        .reveal-delay-2 { transition-delay: 0.2s }
 
         @media(max-width:768px) {
             nav { padding: 0 24px }
             .nav-links { display: none; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0; background: var(--bg2); padding: 20px 24px; gap: 16px; border-bottom: 1px solid var(--border) }
             .nav-links.open { display: flex }
             .hamburger { display: flex }
-            .page-header { padding: 120px 24px 10px }
-            .carousel-heading { padding: 0 24px }
-            .carousel-track { padding-left: 24px }
-            .card { width: 165px; height: 235px }
+            .coverflow { height: 380px }
+            .cf-card { width: 220px; height: 320px; margin-left: -110px; margin-top: -160px }
+            .nav-arrow { width: 42px; height: 42px; font-size: 20px }
+            .nav-arrow.left { left: 10px }
+            .nav-arrow.right { right: 10px }
             footer { flex-direction: column; gap: 12px; padding: 24px }
         }
     </style>
@@ -116,33 +106,20 @@
         </div>
     </nav>
 
-    <header class="page-header">
-        <div class="page-tag reveal"><span class="dot"></span> Moments & Milestones</div>
-        <h1 class="page-title reveal reveal-delay-1">My <span>Highlights</span></h1>
-        <p class="page-subtitle reveal reveal-delay-2">A collection of photos and videos from my projects, events, and achievements — hover a card to preview, click to watch or view in full size.</p>
-    </header>
-
     <!-- ============================================================
          HOW TO ADD YOUR OWN PHOTOS & VIDEOS
          1) Put your image/video files in a folder next to this page,
             for example: media/photo1.jpg , media/video1.mp4
-         2) Scroll down to the <script> section and find "highlightItems".
+         2) Scroll to the <script> below and find "items".
          3) Copy one item block and edit: type, src, poster, badge, title, subtitle.
-         4) Save. New cards appear automatically in the moving row.
+         4) Save. It appears automatically in the carousel.
        ============================================================ -->
 
-    <section class="carousel-section">
-        <div class="carousel-heading reveal"><span>Featured Highlights</span><div class="line"></div></div>
-        <div class="carousel-wrap">
-            <div class="carousel-track" id="track-1"></div>
-        </div>
-    </section>
-
-    <section class="carousel-section">
-        <div class="carousel-heading reveal"><span>More Moments</span><div class="line"></div></div>
-        <div class="carousel-wrap">
-            <div class="carousel-track reverse" id="track-2"></div>
-        </div>
+    <section class="stage">
+        <div class="nav-arrow left" id="prevBtn">&#8249;</div>
+        <div class="coverflow" id="coverflow"></div>
+        <div class="nav-arrow right" id="nextBtn">&#8250;</div>
+        <div class="dots" id="dots"></div>
     </section>
 
     <footer>
@@ -168,48 +145,130 @@
            EDIT THIS LIST TO ADD YOUR OWN PHOTOS & VIDEOS
            type: "image" or "video"
            src: path/URL to your image or video file
-           poster: (video only) a thumbnail image shown before play
-           badge: small tag text, e.g. a rating, date, or emoji label
-           title / subtitle: text shown on the card and in the popup
+           poster: (video only) a thumbnail shown before it plays
+           badge: small tag text, e.g. a date or emoji label
+           title / subtitle: text shown on the active card
         ========================================================= */
-        const highlightItems = [
-            { type: "image", src: "https://picsum.photos/seed/leen1/400/560", badge: "⭐ Featured", title: "Robotics Workshop", subtitle: "2024 · Al-Balqa University" },
-            { type: "video", src: "media/highlight-video1.mp4", poster: "https://picsum.photos/seed/leen2/400/560", badge: "🎬 Video", title: "AI Project Demo", subtitle: "2:14 · Capstone Project" },
-            { type: "image", src: "https://picsum.photos/seed/leen3/400/560", badge: "⭐ Award", title: "QA Certification", subtitle: "2025 · Junior QA Tester" },
-            { type: "image", src: "https://picsum.photos/seed/leen4/400/560", badge: "📸 Event", title: "Team Hackathon", subtitle: "2024 · 1st Place" },
-            { type: "video", src: "media/highlight-video2.mp4", poster: "https://picsum.photos/seed/leen5/400/560", badge: "🎬 Video", title: "Robot Demo Reel", subtitle: "1:48 · Live Test Run" },
-            { type: "image", src: "https://picsum.photos/seed/leen6/400/560", badge: "⭐ Featured", title: "Python & ML Training", subtitle: "2025 · Trainee Program" },
+        const items = [
+            { type: "image", src: "https://picsum.photos/seed/leen1/600/850", badge: "⭐ Featured", title: "Robotics Workshop", subtitle: "2024 · Al-Balqa University" },
+            { type: "video", src: "media/highlight-video1.mp4", poster: "https://picsum.photos/seed/leen2/600/850", badge: "🎬 Video", title: "AI Project Demo", subtitle: "2:14 · Capstone Project" },
+            { type: "image", src: "https://picsum.photos/seed/leen3/600/850", badge: "⭐ Award", title: "QA Certification", subtitle: "2025 · Junior QA Tester" },
+            { type: "image", src: "https://picsum.photos/seed/leen4/600/850", badge: "📸 Event", title: "Team Hackathon", subtitle: "2024 · 1st Place" },
+            { type: "video", src: "media/highlight-video2.mp4", poster: "https://picsum.photos/seed/leen5/600/850", badge: "🎬 Video", title: "Robot Demo Reel", subtitle: "1:48 · Live Test Run" },
+            { type: "image", src: "https://picsum.photos/seed/leen6/600/850", badge: "⭐ Featured", title: "Python & ML Training", subtitle: "2025 · Trainee Program" },
         ];
 
-        function cardHTML(item) {
+        const coverflow = document.getElementById("coverflow");
+        const dotsWrap = document.getElementById("dots");
+        let activeIndex = 0;
+
+        function cardHTML(item, i) {
             const media = item.type === "video"
-                ? `<img src="${item.poster}" alt="${item.title}">`
+                ? `<video src="${item.src}" poster="${item.poster}" muted loop playsinline></video>`
                 : `<img src="${item.src}" alt="${item.title}">`;
-            const playIcon = item.type === "video"
-                ? `<div class="card-play">▶</div>`
-                : "";
+            const playIcon = item.type === "video" ? `<div class="cf-play">▶</div>` : "";
             return `
-                <div class="card" data-type="${item.type}" data-src="${item.src}" data-title="${item.title}" data-sub="${item.subtitle}">
+                <div class="cf-card" data-index="${i}" data-type="${item.type}" data-src="${item.src}" data-title="${item.title}" data-sub="${item.subtitle}">
                     ${media}
-                    <div class="card-overlay"></div>
-                    <div class="card-badge"><span class="star">${item.badge}</span></div>
+                    <div class="cf-overlay"></div>
+                    <div class="cf-badge">${item.badge}</div>
                     ${playIcon}
-                    <div class="card-info">
-                        <div class="card-title">${item.title}</div>
-                        <div class="card-sub">${item.subtitle}</div>
+                    <div class="cf-info">
+                        <div class="cf-title">${item.title}</div>
+                        <div class="cf-sub">${item.subtitle}</div>
                     </div>
                 </div>`;
         }
 
-        function fillTrack(trackId, items) {
-            const track = document.getElementById(trackId);
-            // duplicate the list so the scrolling loop is seamless
-            const doubled = [...items, ...items];
-            track.innerHTML = doubled.map(cardHTML).join("");
+        coverflow.innerHTML = items.map(cardHTML).join("");
+        dotsWrap.innerHTML = items.map((_, i) => `<div class="dot" data-index="${i}"></div>`).join("");
+
+        const cards = Array.from(document.querySelectorAll(".cf-card"));
+        const dots = Array.from(document.querySelectorAll(".dot"));
+
+        function render() {
+            const total = cards.length;
+            cards.forEach((card, i) => {
+                let offset = i - activeIndex;
+                if (offset > total / 2) offset -= total;
+                if (offset < -total / 2) offset += total;
+                const abs = Math.abs(offset);
+
+                let scale = abs === 0 ? 1 : abs === 1 ? 0.72 : abs === 2 ? 0.5 : 0.4;
+                const translateX = offset * 250;
+                const opacity = abs > 3 ? 0 : 1 - abs * 0.28;
+                const zIndex = 100 - abs;
+                const brightness = abs === 0 ? 1 : Math.max(0.35, 1 - abs * 0.25);
+
+                card.style.transform = `translateX(${translateX}px) scale(${scale})`;
+                card.style.opacity = opacity;
+                card.style.zIndex = zIndex;
+                card.style.filter = `brightness(${brightness})`;
+                card.style.pointerEvents = abs > 3 ? "none" : "auto";
+                card.classList.toggle("is-active", abs === 0);
+
+                const video = card.querySelector("video");
+                if (video) {
+                    if (abs === 0) { video.play().catch(() => {}); }
+                    else { video.pause(); }
+                }
+            });
+            dots.forEach((d, i) => d.classList.toggle("is-active", i === activeIndex));
         }
 
-        fillTrack("track-1", highlightItems);
-        fillTrack("track-2", [...highlightItems].reverse());
+        function goTo(index) {
+            const total = cards.length;
+            activeIndex = ((index % total) + total) % total;
+            render();
+        }
+        function next() { goTo(activeIndex + 1); }
+        function prev() { goTo(activeIndex - 1); }
+
+        render();
+
+        // Click controls
+        document.getElementById("nextBtn").addEventListener("click", next);
+        document.getElementById("prevBtn").addEventListener("click", prev);
+        dots.forEach(d => d.addEventListener("click", () => goTo(parseInt(d.dataset.index))));
+
+        // Click a card: side card -> bring to center, active card -> open full view
+        cards.forEach(card => {
+            card.addEventListener("click", () => {
+                const i = parseInt(card.dataset.index);
+                if (i !== activeIndex) { goTo(i); return; }
+                const { type, src, title, sub } = card.dataset;
+                openModal(type, src, title, sub);
+            });
+        });
+
+        // Keyboard arrow navigation
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") next();
+            if (e.key === "ArrowLeft") prev();
+            if (e.key === "Escape") closeModal();
+        });
+
+        // Drag / swipe with the mouse
+        let dragging = false, startX = 0, dragMoved = 0;
+        coverflow.addEventListener("mousedown", (e) => { dragging = true; startX = e.clientX; dragMoved = 0; });
+        window.addEventListener("mousemove", (e) => {
+            if (!dragging) return;
+            dragMoved = e.clientX - startX;
+        });
+        window.addEventListener("mouseup", () => {
+            if (!dragging) return;
+            dragging = false;
+            if (dragMoved > 60) prev();
+            else if (dragMoved < -60) next();
+        });
+        // Touch swipe support
+        let touchStartX = 0;
+        coverflow.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        coverflow.addEventListener("touchend", (e) => {
+            const diff = e.changedTouches[0].clientX - touchStartX;
+            if (diff > 60) prev();
+            else if (diff < -60) next();
+        });
 
         // Modal viewer logic
         const modal = document.getElementById("modal");
@@ -217,25 +276,20 @@
         const modalTitle = document.getElementById("modal-title");
         const modalSub = document.getElementById("modal-sub");
 
-        document.addEventListener("click", (e) => {
-            const card = e.target.closest(".card");
-            if (!card) return;
-            const { type, src, title, sub } = card.dataset;
+        function openModal(type, src, title, sub) {
             modalTitle.textContent = title;
             modalSub.textContent = sub;
             modalMedia.innerHTML = type === "video"
                 ? `<video src="${src}" controls autoplay></video>`
                 : `<img src="${src}" alt="${title}">`;
             modal.classList.add("open");
-        });
-
+        }
         function closeModal() {
             modal.classList.remove("open");
             modalMedia.innerHTML = "";
         }
         document.getElementById("modal-close").addEventListener("click", closeModal);
         modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
         // Shared site behaviors
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -245,9 +299,7 @@
         document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY });
         function animateCursor() { rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateCursor) }
         animateCursor();
-        document.querySelectorAll('a,button,.card').forEach(el => { el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.5)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)' }); el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)' }) });
-        const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }) }, { threshold: 0.08 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('a,button,.cf-card,.dot').forEach(el => { el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.5)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)' }); el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)' }) });
         document.getElementById('hamburger').addEventListener('click', () => document.getElementById('nav-links').classList.toggle('open'));
         document.querySelectorAll('#nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open')));
         window.addEventListener('scroll', () => { document.querySelector('nav').style.boxShadow = window.scrollY > 40 ? '0 8px 40px rgba(0,0,0,0.5)' : 'none' });
