@@ -60,68 +60,40 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
 @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
 @keyframes pulse-orb { 0%, 100% { transform: scale(1) translate(0, 0) } 50% { transform: scale(1.1) translate(20px, -20px) } }
 
-#hero { position: relative; min-height: 100vh; overflow: hidden; padding: 0; border-bottom: 1px solid var(--border) }
+#hero { position: relative; min-height: 100vh; overflow: hidden; padding: 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center }
 
-.hero2-orb-1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; top: -140px; left: -120px; background: radial-gradient(circle, rgba(124, 58, 237, 0.14) 0%, transparent 70%); filter: blur(60px); z-index: 0; animation: pulse-orb 9s ease-in-out infinite }
+/* Global animated background: a subtle neural-network canvas fixed behind the ENTIRE site,
+   visible continuously from Home through every section down to Contact. */
+#bgNetwork { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; display: block }
 
-.hero2-photo { position: absolute; inset: 0; left: 40%; z-index: 1; overflow: hidden; background: radial-gradient(ellipse 90% 70% at 65% 40%, rgba(124, 58, 237, 0.16) 0%, transparent 70%), var(--bg2) }
-.hero2-photo-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block }
-.hero2-photo-core { position: absolute; top: 46%; left: 62%; width: 280px; height: 280px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(124, 58, 237, 0.4) 0%, rgba(34, 211, 238, 0.12) 45%, transparent 75%); filter: blur(18px); animation: pulse-orb 7s ease-in-out infinite; pointer-events: none }
-.hero2-photo-ring { position: absolute; top: 46%; left: 62%; width: 200px; height: 200px; transform: translate(-50%, -50%); border: 1px solid rgba(167, 139, 250, 0.25); border-radius: 50%; pointer-events: none }
-.hero2-photo-ring::before { content: ''; position: absolute; inset: -34px; border: 1px dashed rgba(34, 211, 238, 0.2); border-radius: 50%; animation: spin-slow 22s linear infinite }
-.hero2-photo-fade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(5, 5, 8, 0.85) 14%, rgba(5, 5, 8, 0.2) 40%, transparent 65%), linear-gradient(0deg, var(--bg) 0%, rgba(5, 5, 8, 0.7) 18%, transparent 45%), linear-gradient(0deg, transparent 60%, rgba(5,5,8,0.5) 100%); pointer-events: none }
+.hero4-content { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px; padding: 140px 24px 40px; max-width: 640px }
 
-@keyframes spin-slow { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+.hero4-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); padding: 6px 14px; border-radius: 100px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--violet-light) }
+.hero4-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--violet-light); animation: blink 2s ease infinite }
 
-.hero2-index { position: absolute; top: 100px; left: 60px; z-index: 3; display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 2px }
-.hero2-index-num { color: var(--violet-light); font-family: var(--font-display); font-weight: 700 }
-.hero2-index-bars { display: flex; flex-direction: column; gap: 3px }
-.hero2-index-bars i { display: block; width: 16px; height: 2px; background: var(--faint) }
-.hero2-index-bars i:first-child { background: var(--cyan); width: 24px }
+.hero4-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(40px, 7vw, 76px); line-height: 1; letter-spacing: -1.5px; background: linear-gradient(135deg, var(--violet-light) 0%, var(--cyan) 55%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
+.hero4-sub { color: var(--muted); font-size: 17px; line-height: 1.7; font-weight: 300 }
+.hero4-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 6px }
 
-.hero2-tagline { position: absolute; left: 60px; top: 42%; transform: translateY(-50%); z-index: 3; max-width: 260px }
-.hero2-tagline p { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: -0.5px; margin-bottom: 16px }
-.hero2-next { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--violet-light); text-decoration: none; border-top: 1px solid var(--border); padding-top: 12px }
-.hero2-next span { display: inline-block; transition: transform 0.2s }
-.hero2-next:hover span { transform: translateX(4px) }
+.hero4-badge { position: absolute; top: 100px; right: 40px; z-index: 4; display: flex; align-items: center; background: rgba(12, 12, 20, 0.75); border: 1px solid var(--border); backdrop-filter: blur(14px); border-radius: 100px; padding: 6px; gap: 0 }
+.hero4-badge-photo { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid var(--violet-light); flex-shrink: 0 }
+.hero4-badge-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top }
+.hero4-badge span { padding: 0 14px; font-size: 12.5px; color: var(--text); font-family: var(--font-display); font-weight: 600; white-space: nowrap }
+.hero4-badge-arrow { width: 34px; height: 34px; border-radius: 50%; background: var(--violet); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; font-size: 14px; flex-shrink: 0; transition: 0.2s }
+.hero4-badge-arrow:hover { background: #6d28d9; transform: rotate(45deg) }
 
-.hero2-info-card { position: absolute; left: 60px; bottom: 210px; z-index: 3; max-width: 230px }
-.hero2-info-thumbs { display: flex; gap: 8px; margin-bottom: 14px }
-.hero2-info-thumb { width: 52px; height: 52px; border-radius: 10px; background: linear-gradient(135deg, var(--violet), var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 20px }
-.hero2-info-thumb-b { background: linear-gradient(135deg, var(--pink), var(--violet)) }
-.hero2-info-card p { color: var(--muted); font-size: 12.5px; line-height: 1.65 }
-
-.hero2-title { position: absolute; left: 56px; bottom: 40px; z-index: 3; font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 4.4vw, 76px); line-height: 0.95; letter-spacing: -1px; margin: 0; max-width: 38%; background: linear-gradient(135deg, var(--violet-light) 0%, var(--cyan) 55%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
-
-.hero2-cta { position: absolute; right: 60px; bottom: 50px; z-index: 4 }
-
-.hero2-badge { position: absolute; top: 116px; right: 60px; z-index: 4; display: flex; align-items: center; background: rgba(12, 12, 20, 0.75); border: 1px solid var(--border); backdrop-filter: blur(14px); border-radius: 100px; padding: 6px; gap: 0 }
-.hero2-badge-photo { width: 50px; height: 50px; border-radius: 50%; overflow: hidden; border: 2px solid var(--violet-light); flex-shrink: 0 }
-.hero2-badge-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top }
-.hero2-badge span { padding: 0 14px; font-size: 13px; color: var(--text); font-family: var(--font-display); font-weight: 600; white-space: nowrap }
-.hero2-badge-arrow { width: 36px; height: 36px; border-radius: 50%; background: var(--violet); display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; font-size: 15px; flex-shrink: 0; transition: 0.2s }
-.hero2-badge-arrow:hover { background: #6d28d9; transform: rotate(45deg) }
-
-@media(max-width: 1024px) {
-    .hero2-photo { left: 30% }
-    .hero2-info-card { bottom: 230px; max-width: 200px }
-    .hero2-badge span { display: none }
-    .hero2-badge { padding: 4px }
-}
+.hero4-scrolldown { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-decoration: none; opacity: 0.8; transition: opacity 0.2s }
+.hero4-scrolldown:hover { opacity: 1; color: var(--text) }
+.hero4-scrolldown span { display: inline-block; animation: float 2s ease-in-out infinite }
+@keyframes float { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
 
 @media(max-width: 768px) {
-    #hero { min-height: auto; display: flex; flex-direction: column; padding: 100px 24px 40px; gap: 26px }
-    .hero2-orb-1 { display: none }
-    .hero2-photo { position: relative; left: 0; inset: auto; width: 100%; height: 280px; order: 1; border-radius: 16px }
-    .hero2-photo-fade { background: linear-gradient(0deg, var(--bg) 0%, transparent 30%) }
-    .hero2-index { position: static; order: 0 }
-    .hero2-tagline { position: static; transform: none; order: 2; max-width: none }
-    .hero2-info-card { position: static; order: 3; max-width: none }
-    .hero2-title { position: static; order: 4; font-size: clamp(38px, 12vw, 58px); max-width: none }
-    .hero2-cta { position: static; order: 5; align-self: flex-start }
-    .hero2-badge { position: static; order: 1; align-self: flex-start; margin-top: -50px; margin-left: 16px }
-    .hero2-badge span { display: inline-block }
+    .hero4-title { font-size: clamp(34px, 11vw, 48px) }
+    .hero4-badge span { display: none }
+    .hero4-badge { padding: 4px }
+    .hero4-content { padding: 120px 20px 40px }
 }
+
 
 
 /* ---- about ---- */
@@ -1728,6 +1700,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
     </style>
 </head>
 <body>
+    <canvas id="bgNetwork"></canvas>
     <div class="bg-orbs"><div class="bg-orb bg-orb-a"></div><div class="bg-orb bg-orb-b"></div><div class="bg-orb bg-orb-c"></div></div>
 <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
@@ -1753,48 +1726,30 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
     </nav>
 
     <section id="hero">
-        <div class="hero2-orb-1"></div>
+        <div class="hero4-content">
+            <div class="hero4-tag reveal"><span class="dot"></span> AI & Robotics Engineer</div>
+            <h1 class="hero4-title reveal reveal-delay-1">Leen Thaher</h1>
+            <p class="hero4-sub reveal reveal-delay-2">Building intelligent systems that bridge software and the physical world.</p>
 
-        <div class="hero2-photo">
-            <canvas id="aiCanvas" class="hero2-photo-canvas"></canvas>
-            <div class="hero2-photo-core"></div>
-            <div class="hero2-photo-ring"></div>
-            <div class="hero2-photo-fade"></div>
-        </div>
-
-        <div class="hero2-index reveal">
-            <span class="hero2-index-num">001</span>
-            <span class="hero2-index-bars"><i></i><i></i><i></i><i></i></span>
-        </div>
-
-        <div class="hero2-tagline reveal reveal-delay-1">
-            <p>Engineering<br>Intelligent Systems</p>
-            <a href="#about" class="hero2-next">About Me <span>→</span></a>
-        </div>
-
-        <div class="hero2-info-card reveal reveal-delay-2">
-            <div class="hero2-info-thumbs">
-                <div class="hero2-info-thumb">🤖</div>
-                <div class="hero2-info-thumb hero2-info-thumb-b">✦</div>
+            <div class="hero4-actions reveal reveal-delay-3">
+                <a href="#projects" class="btn btn-violet">View My Work →</a>
+                <a href="#about" class="btn btn-ghost">About Me</a>
             </div>
-            <p>Studying <strong>AI & Robotics</strong> at Al-Balqa Applied University — building intelligent software that moves through the physical world.</p>
         </div>
 
-        <h1 class="hero2-title reveal reveal-delay-2">ARTIFICIAL<br>INTELLIGENCE</h1>
-
-        <a href="#projects" class="btn btn-violet hero2-cta">Portfolio →</a>
-
-        <div class="hero2-badge reveal reveal-delay-3">
-            <div class="hero2-badge-photo">
+        <div class="hero4-badge reveal reveal-delay-3">
+            <div class="hero4-badge-photo">
                 <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen.png" alt="Leen Thaher">
             </div>
             <span>About Me</span>
-            <a href="#about" class="hero2-badge-arrow">↘</a>
+            <a href="#about" class="hero4-badge-arrow">↘</a>
         </div>
+
+        <a href="#about" class="hero4-scrolldown">Scroll <span>↓</span></a>
     </section>
 
     <div id="scope-about">
-    <section id="about" style="min-height:100vh;padding-top:140px;">
+    <section id="about" style="min-height:100vh;padding-top:140px;background:radial-gradient(ellipse 80% 40% at 50% 0%, rgba(124,58,237,0.10) 0%, transparent 65%);">
         <div class="section reveal">
             <span class="section-label">Who I Am</span>
             <h2 class="section-title">A Builder at Heart</h2>
@@ -2442,61 +2397,101 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             });
         }
 
-        // AI neural-network animation filling the hero visual panel
-        (function initAiCanvas() {
-            const canvas = document.getElementById('aiCanvas');
+        // Global background: a bold, persistent neural-network animation fixed
+        // behind the entire site (Home through Contact), tying every page together.
+        (function initGlobalNetwork() {
+            const canvas = document.getElementById('bgNetwork');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            const wrap = canvas.parentElement;
-            let w, h, nodes = [];
-            const NODE_COUNT = 42;
-            const LINK_DIST = 150;
+            let w, h, nodes = [], pulses = [];
+            const DENSITY = 0.00016; // nodes per pixel of viewport area
+            const LINK_DIST = 190;
             const palette = ['124,58,237', '34,211,238', '232,121,249'];
-
-            function resize() {
-                const rect = wrap.getBoundingClientRect();
-                w = canvas.width = rect.width;
-                h = canvas.height = rect.height;
-            }
+            const mouse = { x: -9999, y: -9999, active: false };
 
             function makeNodes() {
-                nodes = Array.from({ length: NODE_COUNT }, () => ({
+                const count = Math.min(120, Math.max(46, Math.round(w * h * DENSITY)));
+                nodes = Array.from({ length: count }, () => ({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    r: Math.random() * 1.8 + 1.4,
+                    vx: (Math.random() - 0.5) * 0.32,
+                    vy: (Math.random() - 0.5) * 0.32,
+                    r: Math.random() * 1.8 + 1.3,
                     c: palette[Math.floor(Math.random() * palette.length)]
                 }));
             }
 
+            function resize() {
+                const nw = window.innerWidth, nh = window.innerHeight;
+                if (Math.abs(nw - w) < 2 && Math.abs(nh - h) < 2) return;
+                w = canvas.width = nw;
+                h = canvas.height = nh;
+                if (!nodes.length) makeNodes();
+            }
+
+            window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+            window.addEventListener('mouseleave', () => { mouse.active = false; });
+
+            function maybeSpawnPulse(a, b) {
+                if (Math.random() < 0.0022) {
+                    pulses.push({ a, b, t: 0, speed: 0.012 + Math.random() * 0.012, c: palette[Math.floor(Math.random() * palette.length)] });
+                }
+            }
+
             function step() {
-                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = '#050508';
+                ctx.fillRect(0, 0, w, h);
+
                 nodes.forEach(n => {
                     n.x += n.vx; n.y += n.vy;
+                    if (mouse.active) {
+                        const dx = mouse.x - n.x, dy = mouse.y - n.y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < 160 && d > 0.01) {
+                            n.x -= (dx / d) * 0.35;
+                            n.y -= (dy / d) * 0.35;
+                        }
+                    }
                     if (n.x < 0 || n.x > w) n.vx *= -1;
                     if (n.y < 0 || n.y > h) n.vy *= -1;
                 });
+
                 for (let i = 0; i < nodes.length; i++) {
                     for (let j = i + 1; j < nodes.length; j++) {
                         const a = nodes[i], b = nodes[j];
                         const dx = a.x - b.x, dy = a.y - b.y;
                         const dist = Math.sqrt(dx * dx + dy * dy);
                         if (dist < LINK_DIST) {
-                            ctx.strokeStyle = `rgba(167,139,250,${(1 - dist / LINK_DIST) * 0.4})`;
+                            ctx.strokeStyle = `rgba(167,139,250,${(1 - dist / LINK_DIST) * 0.32})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(a.x, a.y);
                             ctx.lineTo(b.x, b.y);
                             ctx.stroke();
+                            maybeSpawnPulse(a, b);
                         }
                     }
                 }
+
+                // traveling data pulses along active links
+                pulses = pulses.filter(p => p.t <= 1);
+                pulses.forEach(p => {
+                    p.t += p.speed;
+                    const px = p.a.x + (p.b.x - p.a.x) * p.t;
+                    const py = p.a.y + (p.b.y - p.a.y) * p.t;
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(${p.c},0.95)`;
+                    ctx.shadowColor = `rgba(${p.c},1)`;
+                    ctx.shadowBlur = 12;
+                    ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
                 nodes.forEach(n => {
                     ctx.beginPath();
-                    ctx.fillStyle = `rgba(${n.c},0.95)`;
-                    ctx.shadowColor = `rgba(${n.c},0.9)`;
-                    ctx.shadowBlur = 9;
+                    ctx.fillStyle = `rgba(${n.c},0.8)`;
+                    ctx.shadowColor = `rgba(${n.c},0.85)`;
+                    ctx.shadowBlur = 10;
                     ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
                     ctx.fill();
                 });
@@ -2505,9 +2500,12 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             }
 
             resize();
-            makeNodes();
             step();
-            window.addEventListener('resize', () => { resize(); makeNodes(); }, { passive: true });
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(resize, 200);
+            }, { passive: true });
         })();
 
     </script>
