@@ -64,10 +64,14 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
 
 .hero2-orb-1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; top: -140px; left: -120px; background: radial-gradient(circle, rgba(124, 58, 237, 0.14) 0%, transparent 70%); filter: blur(60px); z-index: 0; animation: pulse-orb 9s ease-in-out infinite }
 
-.hero2-photo { position: absolute; inset: 0; left: 40%; z-index: 1; overflow: hidden }
-.hero2-photo-img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; filter: grayscale(0.3) contrast(1.1) brightness(0.92); transform: scale(1.25); display: block; transition: transform 0.2s ease-out }
-.hero2-photo-tint { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(124, 58, 237, 0.4) 0%, rgba(34, 211, 238, 0.12) 45%, rgba(232, 121, 249, 0.32) 100%); mix-blend-mode: color; pointer-events: none }
+.hero2-photo { position: absolute; inset: 0; left: 40%; z-index: 1; overflow: hidden; background: radial-gradient(ellipse 90% 70% at 65% 40%, rgba(124, 58, 237, 0.16) 0%, transparent 70%), var(--bg2) }
+.hero2-photo-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block }
+.hero2-photo-core { position: absolute; top: 46%; left: 62%; width: 280px; height: 280px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(124, 58, 237, 0.4) 0%, rgba(34, 211, 238, 0.12) 45%, transparent 75%); filter: blur(18px); animation: pulse-orb 7s ease-in-out infinite; pointer-events: none }
+.hero2-photo-ring { position: absolute; top: 46%; left: 62%; width: 200px; height: 200px; transform: translate(-50%, -50%); border: 1px solid rgba(167, 139, 250, 0.25); border-radius: 50%; pointer-events: none }
+.hero2-photo-ring::before { content: ''; position: absolute; inset: -34px; border: 1px dashed rgba(34, 211, 238, 0.2); border-radius: 50%; animation: spin-slow 22s linear infinite }
 .hero2-photo-fade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(5, 5, 8, 0.85) 14%, rgba(5, 5, 8, 0.2) 40%, transparent 65%), linear-gradient(0deg, var(--bg) 0%, rgba(5, 5, 8, 0.7) 18%, transparent 45%), linear-gradient(0deg, transparent 60%, rgba(5,5,8,0.5) 100%); pointer-events: none }
+
+@keyframes spin-slow { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
 
 .hero2-index { position: absolute; top: 100px; left: 60px; z-index: 3; display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; letter-spacing: 2px }
 .hero2-index-num { color: var(--violet-light); font-family: var(--font-display); font-weight: 700 }
@@ -87,7 +91,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
 .hero2-info-thumb-b { background: linear-gradient(135deg, var(--pink), var(--violet)) }
 .hero2-info-card p { color: var(--muted); font-size: 12.5px; line-height: 1.65 }
 
-.hero2-title { position: absolute; left: 56px; bottom: 40px; z-index: 3; font-family: var(--font-display); font-weight: 800; font-size: clamp(46px, 7.5vw, 108px); line-height: 0.88; letter-spacing: -2px; margin: 0; background: linear-gradient(135deg, var(--violet-light) 0%, var(--cyan) 55%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
+.hero2-title { position: absolute; left: 56px; bottom: 40px; z-index: 3; font-family: var(--font-display); font-weight: 800; font-size: clamp(34px, 4.4vw, 76px); line-height: 0.95; letter-spacing: -1px; margin: 0; max-width: 38%; background: linear-gradient(135deg, var(--violet-light) 0%, var(--cyan) 55%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent }
 
 .hero2-cta { position: absolute; right: 60px; bottom: 50px; z-index: 4 }
 
@@ -113,7 +117,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
     .hero2-index { position: static; order: 0 }
     .hero2-tagline { position: static; transform: none; order: 2; max-width: none }
     .hero2-info-card { position: static; order: 3; max-width: none }
-    .hero2-title { position: static; order: 4; font-size: clamp(44px, 14vw, 64px) }
+    .hero2-title { position: static; order: 4; font-size: clamp(38px, 12vw, 58px); max-width: none }
     .hero2-cta { position: static; order: 5; align-self: flex-start }
     .hero2-badge { position: static; order: 1; align-self: flex-start; margin-top: -50px; margin-left: 16px }
     .hero2-badge span { display: inline-block }
@@ -1752,8 +1756,9 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
         <div class="hero2-orb-1"></div>
 
         <div class="hero2-photo">
-            <img src="https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Leen.png" alt="Leen Thaher" class="hero2-photo-img">
-            <div class="hero2-photo-tint"></div>
+            <canvas id="aiCanvas" class="hero2-photo-canvas"></canvas>
+            <div class="hero2-photo-core"></div>
+            <div class="hero2-photo-ring"></div>
             <div class="hero2-photo-fade"></div>
         </div>
 
@@ -1775,7 +1780,7 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             <p>Studying <strong>AI & Robotics</strong> at Al-Balqa Applied University — building intelligent software that moves through the physical world.</p>
         </div>
 
-        <h1 class="hero2-title reveal reveal-delay-2">AI &<br>ROBOTICS</h1>
+        <h1 class="hero2-title reveal reveal-delay-2">ARTIFICIAL<br>INTELLIGENCE</h1>
 
         <a href="#projects" class="btn btn-violet hero2-cta">Portfolio →</a>
 
@@ -2437,6 +2442,74 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
             });
         }
 
+        // AI neural-network animation filling the hero visual panel
+        (function initAiCanvas() {
+            const canvas = document.getElementById('aiCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const wrap = canvas.parentElement;
+            let w, h, nodes = [];
+            const NODE_COUNT = 42;
+            const LINK_DIST = 150;
+            const palette = ['124,58,237', '34,211,238', '232,121,249'];
+
+            function resize() {
+                const rect = wrap.getBoundingClientRect();
+                w = canvas.width = rect.width;
+                h = canvas.height = rect.height;
+            }
+
+            function makeNodes() {
+                nodes = Array.from({ length: NODE_COUNT }, () => ({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    r: Math.random() * 1.8 + 1.4,
+                    c: palette[Math.floor(Math.random() * palette.length)]
+                }));
+            }
+
+            function step() {
+                ctx.clearRect(0, 0, w, h);
+                nodes.forEach(n => {
+                    n.x += n.vx; n.y += n.vy;
+                    if (n.x < 0 || n.x > w) n.vx *= -1;
+                    if (n.y < 0 || n.y > h) n.vy *= -1;
+                });
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const a = nodes[i], b = nodes[j];
+                        const dx = a.x - b.x, dy = a.y - b.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < LINK_DIST) {
+                            ctx.strokeStyle = `rgba(167,139,250,${(1 - dist / LINK_DIST) * 0.4})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                nodes.forEach(n => {
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(${n.c},0.95)`;
+                    ctx.shadowColor = `rgba(${n.c},0.9)`;
+                    ctx.shadowBlur = 9;
+                    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.shadowBlur = 0;
+                requestAnimationFrame(step);
+            }
+
+            resize();
+            makeNodes();
+            step();
+            window.addEventListener('resize', () => { resize(); makeNodes(); }, { passive: true });
+        })();
+
     </script>
     <script>(function(){
 /* =========================================================
@@ -2448,13 +2521,13 @@ footer .footer-logo { font-family: var(--font-display); font-weight: 800; font-s
            title / subtitle: text shown on the active card
         ========================================================= */
         const items = [
-            { type: "image", src: "media/Screenshot 2026-07-04 175213.png", badge: "📸 Event", title: "UTOPIA Event", subtitle: "University of Jordan · 2026" },
-            { type: "video", src: "media/__في الجامعة الأردنية، وبين الحماس والهوية، نظّم فريق UTOPIA فعالية هي الأولى من نوعها في الجامع.mp4", poster: "", badge: "🎬 Video", title: "UTOPIA Team Highlight", subtitle: "University of Jordan · First-of-its-kind Event" },
-            { type: "image", src: "media/Screenshot 2026-07-04 175552.png", badge: "📸 Event", title: "Event Moment", subtitle: "UTOPIA · University of Jordan" },
-            { type: "image", src: "media/Screenshot 2026-07-04 175544.png", badge: "📸 Event", title: "Team in Action", subtitle: "UTOPIA · University of Jordan" },
-            { type: "image", src: "media/Screenshot 2026-07-04 175535.png", badge: "📸 Event", title: "Behind the Scenes", subtitle: "UTOPIA · University of Jordan" },
-            { type: "image", src: "media/Screenshot 2026-07-04 175527.png", badge: "📸 Event", title: "Crowd Energy", subtitle: "UTOPIA · University of Jordan" },
-            { type: "image", src: "media/1745950359359 (1).jpg", badge: "⭐ Featured", title: "Highlight Photo", subtitle: "2025" },
+            { type: "image", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Screenshot%202026-07-04%20175213.png", badge: "📸 Event", title: "UTOPIA Event", subtitle: "University of Jordan · 2026" },
+            { type: "video", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/utopia-highlight.mp4", poster: "", badge: "🎬 Video", title: "UTOPIA Team Highlight", subtitle: "University of Jordan · First-of-its-kind Event" },
+            { type: "image", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Screenshot%202026-07-04%20175552.png", badge: "📸 Event", title: "Event Moment", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Screenshot%202026-07-04%20175544.png", badge: "📸 Event", title: "Team in Action", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Screenshot%202026-07-04%20175535.png", badge: "📸 Event", title: "Behind the Scenes", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/Screenshot%202026-07-04%20175527.png", badge: "📸 Event", title: "Crowd Energy", subtitle: "UTOPIA · University of Jordan" },
+            { type: "image", src: "https://cdn.jsdelivr.net/gh/leen221/portfolio-media@main/1745950359359%20%281%29.jpg", badge: "⭐ Featured", title: "Highlight Photo", subtitle: "2025" },
         ];
 
         const coverflow = document.getElementById("coverflow");
