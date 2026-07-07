@@ -16,6 +16,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #050508;
@@ -33,6 +34,7 @@
             --green: #34d399;
             --font-display: 'Syne', sans-serif;
             --font-body: 'DM Sans', sans-serif
+            --font-mono: 'JetBrains Mono', monospace
         }
 
         *,
@@ -78,7 +80,8 @@
             pointer-events: none;
             z-index: 9998;
             transform: translate(-50%, -50%);
-            transition: all 0.15s ease
+            transition: all 0.15s ease, opacity 0.2s;
+            opacity: 0.35
         }
 
         body::before {
@@ -162,12 +165,19 @@
         }
 
         .section-label {
+            font-family: var(--font-mono);
             font-size: 11px;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--violet-light);
             margin-bottom: 12px;
             display: block
+        }
+
+        .section-label::before {
+            content: "// ";
+            color: var(--cyan);
+            opacity: 0.7
         }
 
         .section-title {
